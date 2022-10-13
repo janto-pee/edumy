@@ -1,33 +1,37 @@
 # CountrySide REST API
 
-This is a bare-bones example of a Sinatra application providing a REST
-API to a DataMapper-backed model.
+This product is built with Nodejs, Typescript, MongoDb and mongoose.
+It provides data about more than 170 countries around the globe.
 
-The entire application is contained within the `app.rb` file.
+The entire application is contained within the `src` file.
+Also, the product files are structured in such a way that: 
 
-`config.ru` is a minimal Rack configuration for unicorn.
+`model` is a folder that contains all the model used for various routes.
 
-`run-tests.sh` runs a simplistic test and generates the API
-documentation below.
+`controller` contains all controller files for each routes and calls the service.
 
-It uses `run-curl-tests.rb` which runs each command defined in
-`commands.yml`.
+`service` is a folder that contains the service files that makes request to the database using the model
+
+other files includes the `schemas` which helps to validate every user input before it goes to the database
+`utils` which contains utilities such as middlewares and jwt authorization files. 
+
+You can use this product with fetch or axios first by
 
 ## Install
 
-    bundle install
+    npm install axios
 
-## Run the app
+## Import axios into your document
 
-    unicorn -p 7000
+    import axios from "axios"
 
-## Run the tests
+## Make first request
 
-    ./run-tests.sh
+    axios.get
 
-# REST API
+# REQUEST & RESPONSE
 
-The REST API to the example app is described below.
+The axios request to the this product include
 
 ## Get list of Things
 
@@ -35,7 +39,7 @@ The REST API to the example app is described below.
 
 `GET /thing/`
 
-    curl -i -H 'Accept: application/json' http://localhost:7000/thing/
+    const response = await axios.get('/user?ID=12345');
 
 ### Response
 
