@@ -13,9 +13,6 @@ Also, the product files are structured in such a way that:
 
 `service` is a folder that contains the service files that makes request to the database using the model
 
-other files includes the `schemas` which helps to validate every user input before it goes to the database
-`utils` which contains utilities such as middlewares and jwt authorization files. 
-
 You can use this product with fetch or axios first by
 
 ## Install
