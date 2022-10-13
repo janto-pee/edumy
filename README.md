@@ -1,5 +1,4 @@
-# CountrySide
-# REST API example application
+# CountrySide REST API
 
 This is a bare-bones example of a Sinatra application providing a REST
 API to a DataMapper-backed model.
