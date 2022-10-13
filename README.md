@@ -4,6 +4,7 @@ This product is built with Nodejs, Typescript, MongoDb and mongoose.
 It provides data about more than 170 countries around the globe.
 
 The entire application is contained within the `src` file.
+
 Also, the product files are structured in such a way that: 
 
 `model` is a folder that contains all the model used for various routes.
