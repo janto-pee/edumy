@@ -1,352 +1,303 @@
-# CountrySide REST API
+# Higher Learning Startup - Architecture
+<!-- https://dba.stackexchange.com/questions/298690/database-diagram-for-school-management-app
+https://medium.com/@vaibhavkansagara/database-design-of-udemy-66af2d42a03f -->
 
-This product is built with Nodejs, Typescript, MongoDb and mongoose.
-It provides data about more than 170 countries around the globe.
 
-The entire application is contained within the `src` file.
+## What is Higher Learning Startup (HLS)?
+HLS  is a virtual learning environment for educational content and resources that offers students everything they need in one place: lectures, resources, opportunities to meet and chat with other students, and more. It is also an excellent way for the student and the teacher to monitor student progress. 
 
-Also, the product files are structured in such a way that: 
+Once an author creates a course, it is listed on the listing page and can be seen by the general public (potential students). Courses with high ratings are added to the recommended list. Alternatively, students can register for one or more courses.
 
-`model` is a folder that contains all the model used for various routes.
 
-`controller` contains all controller files for each routes and calls the service.
+## How will we design HLS?
+I have divided the design of HLS into four lessons:
 
-`service` is a folder that contains the service files that makes request to the database using the model
+Requirements: This lesson will put forth the functional and non-functional requirements of HLS.  
+Design: This lesson will explain the workflow and usage of each component, API design and database schema.  
+Detailed design: In this lesson, we’ll explore the components of our HLS design in detail and discuss various approaches to generate timelines. Moreover, we’ll also evaluate our proposed design.  
+Quiz: This lesson will test our understanding of the HLS design.  
 
-You can use this product with fetch or axios first by
 
-## Install
+## Requirements
 
-    npm install axios
+We’ll concentrate on some important features of HLS to make this design simple. Let’s list down the requirements for our system:  
 
-## Import axios into your document
+### Functional requirements
+Author:  
+User Management: register using role based User registration and authentication  
+Course Management: design courses and make them accessible.  
+Content Management: attach materials to courses (videos, slides, articles)
+Assessment and Evaluation: Instructor’s create Tasks Related with Quizzes - Creating and Managing them.  
+Progress Tracking and Reporting: view student review andenrollment, performance and engagement metrics.  
 
-    import axios from "axios"
+Student:  
+Searching and Filtering: search/filtering option to refine listed courses.  
+Registration management: enroll and start using the learning management system.  
+Course progress tracking: status of completion.
+Feedback to students: in the form of scores after evaluation and completion of quiz exercise. 
+Progress Tracking and Reporting: users can keep track of their courses’ enrollment status and completion  
+Payment: Integration with payment gateways that allows courses to be purchased and subscription plans to be handled.  
 
-## Make first request
 
-    axios.get
 
-# REQUEST & RESPONSE
+### Non-functional requirements#
+Scalability: The system should be scalable to handle millions of users in terms of computational resources and storage.  
+Latency: The latency to generate a course feed should be low.  
+Availability: The system should be highly available.  
+Durability Any uploaded content (photos and videos) should never get lost.  
+Consistency: We can compromise a little on consistency. It is acceptable if the courses takes time to show in followers’ feeds located in a distant region.  
+Reliability: The system must be able to tolerate hardware and software failures.  
 
-The axios request to the this product include
 
-## Get list of Things
+## Building blocks we will use#
+We’ll focus on the high-level design of HLS. The design will utilize the following building blocks in our design:  
 
-### Request
+A load balancer at various layers will ensure smooth requests distribution among available servers.  
+A database is used to store the user, students, courses, and accounts metadata and relationship among them.  
+Blob storage is needed to store the various types of content such as photos, videos, slides and so on.  
+A task scheduler schedules the events on the database such as removing the entries whose time to live exceeds the limit.  
+A cache stores the most frequent content related requests.  
+CDN is used to effectively deliver content to end-users which reduces delay and burden on end-servers.  
 
-`GET /thing/`
 
-    const response = await axios.get('/user?ID=12345');
 
-### Response
+### High-level design
+Our system should allow us to create, view, search and assess courses at a high level. To create courses, we need to upload and store course content, and upon fetching, we need to retrieve the data from the storage.
 
-    HTTP/1.1 200 OK
-    Date: Thu, 24 Feb 2011 12:36:30 GMT
-    Status: 200 OK
-    Connection: close
-    Content-Type: application/json
-    Content-Length: 2
 
-    []
+Course Management:
 
-## Create a new Thing
+The workflow for the abstract design is provided below:
 
-### Request
+-   The author uploads a course to the server.
+-   The server uses a CMS to store the metadata and the accompanying author's data to the database and, at the same time, hands over the video content to the encoder for encoding.
+-   The encoder, along with the transcoder, compresses the video and transforms it into multiple resolutions (like 2160p, 1440p, 1080p, and so on). The videos are stored on blob storage (similar to GFS or S3).
+-   Some popular videos may be forwarded to the CDN, which acts as a cache.
+-   The CDN, because of its vicinity to the user, lets the user stream the video with low latency.
 
-`POST /thing/`
 
-    curl -i -H 'Accept: application/json' -d 'name=Foo&status=new' http://localhost:7000/thing
+Search feature: 
+    
+-    Over time, as questions and answers are fed to the Quora system, it is possible to build an index in the HBase. User search queries are matched against the index, and related content is suggested to the user. Frequently accessed indexes can be served from cache for low latency. The index can be constructed from questions, answers, topics labels, and usernames. Tokenization of the search index returns the same results for reordered words also (see Scaling Search and Indexing in Distributed Search chapter for more details).
 
-### Response
+Recommendation system: 
+    
+-   The recommendation system is responsible for several features. For example, we might need to develop a user feed, find related questions and ads, recommend questions to potential respondents, and even highlight duplicate content and content in violation of the service’s terms of use. Unlike the answer ranking system, the recommendation system must provide both online and offline services. This system receives requests from the application server and forwards selected features to the ML engine.
 
-    HTTP/1.1 201 Created
-    Date: Thu, 24 Feb 2011 12:36:30 GMT
-    Status: 201 Created
-    Connection: close
-    Content-Type: application/json
-    Location: /thing/1
-    Content-Length: 36
+Progress Tracking and Reporting: 
 
-    {"id":1,"name":"Foo","status":"new"}
+### API design
+This section describes the APIs invoked by the users when performing different tasks (upload, like, and view courses, create and take test, view progress) on HLS. Let’s develop APIs for each of the following features:
 
-## Get a specific Thing
+upload course content
+review course and instructor
+Like to add course to wishlist
+Search courses
+track course progress
 
-### Request
 
-`GET /thing/id`
+All of the following calls will have a userID, that uniquely specifies the user performing the action. We’ll only discuss new parameters in the calls.
 
-    curl -i -H 'Accept: application/json' http://localhost:7000/thing/1
+#### Upload course content
+The POST method is used to create course to the server from the user through the /postCourse API. The /postCourse API is as follows:
 
-### Response
+postCourse(userID, content_type, course_title, course_content, caption)
 
-    HTTP/1.1 200 OK
-    Date: Thu, 24 Feb 2011 12:36:30 GMT
-    Status: 200 OK
-    Connection: close
-    Content-Type: application/json
-    Content-Length: 36
+| Parameter | Description |
+| ---------------------------------- | ---------------------------------- |
+| content_type         | It indicates the type of course content. content could be video, pdf or slides.   |
+| course_title                | Title of the course             |
+| course_content                | Course topic and sub topic              |
 
-    {"id":1,"name":"Foo","status":"new"}
 
-## Get a non-existent Thing
+<!-- course content -->
+<!-- course_content: {
+    section: string
+    subsection: {
+        topic: string,
+        content_type: video|pdf|slide,
+    }[]
+}[] -->
 
-### Request
+### Stream course
 
-`GET /thing/id`
+The GET method is best suited for the /streamCourse API:
 
-    curl -i -H 'Accept: application/json' http://localhost:7000/thing/9999
+streamCourse(user_id, video_id, screen_resolution, user_bitrate, device_chipset)
 
-### Response
+<!-- Some new things introduced in this case are the following parameters: -->
 
-    HTTP/1.1 404 Not Found
-    Date: Thu, 24 Feb 2011 12:36:30 GMT
-    Status: 404 Not Found
-    Connection: close
-    Content-Type: application/json
-    Content-Length: 35
 
-    {"status":404,"reason":"Not found"}
+#### Search courses
+The GET method is used to get course from the server through the /searchCourse API. The /searchCourse API is as follows:
 
-## Create another new Thing
+searchCourse(keyword)
 
-### Request
+| Parameter | Description |
+| ---------------------------------- | ---------------------------------- |
+| keyword               | keyword could be title of course, category or caption        |
 
-`POST /thing/`
 
-    curl -i -H 'Accept: application/json' -d 'name=Bar&junk=rubbish' http://localhost:7000/thing
+#### Add Course to WishList
+The POST method is used to add Course to users wishlist through the /postWishlist API. The /postWishlist API is as follows:
 
-### Response
+postWishlist(userID, courseID, authorID)
 
-    HTTP/1.1 201 Created
-    Date: Thu, 24 Feb 2011 12:36:31 GMT
-    Status: 201 Created
-    Connection: close
-    Content-Type: application/json
-    Location: /thing/2
-    Content-Length: 35
+| Parameter | Description |
+| ---------------------------------- | ---------------------------------- |
+| courseID         | the unique ID of the course   |
+| authorID               | the unique of the author               |
 
-    {"id":2,"name":"Bar","status":null}
 
-## Get list of Things again
+#### Create Review
+The POST method is used to post Review to the server from the user through the /postReview API. The /postReview API is as follows:
 
-### Request
+postReview(userID, courseID, rating, review_topic, review_text)
 
-`GET /thing/`
+| Parameter | Description |
+| ---------------------------------- | ---------------------------------- |
+| courseID         | It indicates the type of course content. content could be video, pdf or slides.   |
+| rating                | Title of each sub topic               |
+| review_topic                | Title of review              |
+| review_text              | User comment for the purchased course             |
 
-    curl -i -H 'Accept: application/json' http://localhost:7000/thing/
 
-### Response
+#### View Review
+The GET method is used to get Review from the server through the /getReview API. The /getReview API is as follows:
 
-    HTTP/1.1 200 OK
-    Date: Thu, 24 Feb 2011 12:36:31 GMT
-    Status: 200 OK
-    Connection: close
-    Content-Type: application/json
-    Content-Length: 74
+getReview(userID, courseID, reviewID)
 
-    [{"id":1,"name":"Foo","status":"new"},{"id":2,"name":"Bar","status":null}]
+| Parameter | Description |
+| ---------------------------------- | ---------------------------------- |
+| courseID         | The unique ID of the course   |
+| reviewID                | the specific ID for each review             |
 
-## Change a Thing's state
+<!-- 
+#### View User Progres (Tracking)
+The POST method is used to post photos/videos to the server from the user through the /postCourse API. The /postCourse API is as follows:
 
-### Request
+getProgress(userID, courseID)
 
-`PUT /thing/:id/status/changed`
+| Parameter | Description |
+| ---------------------------------- | ---------------------------------- |
+| courseID         | The unique ID of the course   |
+ -->
 
-    curl -i -H 'Accept: application/json' -X PUT http://localhost:7000/thing/1/status/changed
+#### Create Enrollment
+The POST method is used to post enrollment to the server from the user through the /postEnrollment API. The /postEnrollment API is as follows:
 
-### Response
+postEnrollment(userID, courseID)
 
-    HTTP/1.1 200 OK
-    Date: Thu, 24 Feb 2011 12:36:31 GMT
-    Status: 200 OK
-    Connection: close
-    Content-Type: application/json
-    Content-Length: 40
+| Parameter | Description |
+| ---------------------------------- | ---------------------------------- |
+| courseID         | The unique ID of the course   |
 
-    {"id":1,"name":"Foo","status":"changed"}
 
-## Get changed Thing
+#### View General Performance
+The GET method is used to get data about courses to the user using the userID from the server. The getGeneralPerformance API is as follows:
 
-### Request
+getGeneralPerformance(userID)
 
-`GET /thing/id`
 
-    curl -i -H 'Accept: application/json' http://localhost:7000/thing/1
 
-### Response
 
-    HTTP/1.1 200 OK
-    Date: Thu, 24 Feb 2011 12:36:31 GMT
-    Status: 200 OK
-    Connection: close
-    Content-Type: application/json
-    Content-Length: 40
 
-    {"id":1,"name":"Foo","status":"changed"}
 
-## Change a Thing
+## Storage schema
+Let’s define our data model now:
 
-### Request
+Relational or non-relational database#
+It is essential to choose the right kind of database for our HLS system, but which is the right choice — SQL or NoSQL? Our data is inherently relational, and we need an order for the data (posts should appear in chronological order) and no data loss even in case of failures (data durability). Moreover, in our case, we would benefit from relational queries like fetching the followers or images based on a user ID. Hence, SQL-based databases fulfill these requirements.
 
-`PUT /thing/:id`
+So, we’ll opt for a relational database and store our relevant data in that database.
 
-    curl -i -H 'Accept: application/json' -X PUT -d 'name=Foo&status=changed2' http://localhost:7000/thing/1
+### Define tables
+On a basic level, we need the following tables:
 
-### Response
+Users: This stores all user-related data such as ID, name, email, bio, location, date of account creation, time of the last login, and so on.
 
-    HTTP/1.1 200 OK
-    Date: Thu, 24 Feb 2011 12:36:31 GMT
-    Status: 200 OK
-    Connection: close
-    Content-Type: application/json
-    Content-Length: 41
+author: This stores the relations of users. In HLS, we have a unidirectional relationship, for example, if user A accepts a follow request from user B, user B can view user A’s post, but vice versa is not valid.
 
-    {"id":1,"name":"Foo","status":"changed2"}
+speakers: This stores all photo-related information such as ID, location, caption, time of creation, and so on. We also need to keep the user ID to determine which photo belongs to which user. The user ID is a foreign key from the users table.
 
-## Attempt to change a Thing using partial params
+course: This stores all video-related information such as ID, location, caption, time of creation, and so on. We also need to keep the user ID to determine which video belongs to which user. The user ID is a foreign key from the users table.
 
-### Request
+enrollment: This stores all video-related information such as ID, location, caption, time of creation, and so on. We also need to keep the user ID to determine which video belongs to which user. The user ID is a foreign key from the users table.
 
-`PUT /thing/:id`
+event: This stores all video-related information such as ID, location, caption, time of creation, and so on. We also need to keep the user ID to determine which video belongs to which user. The user ID is a foreign key from the users table.
 
-    curl -i -H 'Accept: application/json' -X PUT -d 'status=changed3' http://localhost:7000/thing/1
+Course Category: This stores all video-related information such as ID, location, caption, time of creation, and so on. We also need to keep the user ID to determine which video belongs to which user. The user ID is a foreign key from the users table.
 
-### Response
+Attendance:  This stores all video-related information such as ID, location, caption, time of creation, and so on. We also need to keep the user ID to determine which video belongs to which user. The user ID is a foreign key from the users table.
 
-    HTTP/1.1 200 OK
-    Date: Thu, 24 Feb 2011 12:36:32 GMT
-    Status: 200 OK
-    Connection: close
-    Content-Type: application/json
-    Content-Length: 41
+## Detailed Design
+Upload Course:
 
-    {"id":1,"name":"Foo","status":"changed3"}
+Assessment & Evaluation
 
-## Attempt to change a Thing using invalid params
+Progress Tracking
 
-### Request
+Recommendation system
 
-`PUT /thing/:id`
+Searching & filtering:
 
-    curl -i -H 'Accept: application/json' -X PUT -d 'id=99&status=changed4' http://localhost:7000/thing/1
 
-### Response
+### Add more components
+Let’s add a few more components to our design:
 
-    HTTP/1.1 200 OK
-    Date: Thu, 24 Feb 2011 12:36:32 GMT
-    Status: 200 OK
-    Connection: close
-    Content-Type: application/json
-    Content-Length: 41
+Load balancer: To balance the load of the requests from the end-users.
 
-    {"id":1,"name":"Foo","status":"changed4"}
+Application servers: To host our service to the end-users.
 
-## Change a Thing using the _method hack
+Relational database: To store our data.
 
-### Request
+Blob storage: To store the photos and videos uploaded by the users.
 
-`POST /thing/:id?_method=POST`
 
-    curl -i -H 'Accept: application/json' -X POST -d 'name=Baz&_method=PUT' http://localhost:7000/thing/1
 
-### Response
 
-    HTTP/1.1 200 OK
-    Date: Thu, 24 Feb 2011 12:36:32 GMT
-    Status: 200 OK
-    Connection: close
-    Content-Type: application/json
-    Content-Length: 41
 
-    {"id":1,"name":"Baz","status":"changed4"}
 
-## Change a Thing using the _method hack in the url
 
-### Request
 
-`POST /thing/:id?_method=POST`
 
-    curl -i -H 'Accept: application/json' -X POST -d 'name=Qux' http://localhost:7000/thing/1?_method=PUT
 
-### Response
 
-    HTTP/1.1 404 Not Found
-    Date: Thu, 24 Feb 2011 12:36:32 GMT
-    Status: 404 Not Found
-    Connection: close
-    Content-Type: text/html;charset=utf-8
-    Content-Length: 35
 
-    {"status":404,"reason":"Not found"}
 
-## Delete a Thing
 
-### Request
 
-`DELETE /thing/id`
 
-    curl -i -H 'Accept: application/json' -X DELETE http://localhost:7000/thing/1/
 
-### Response
 
-    HTTP/1.1 204 No Content
-    Date: Thu, 24 Feb 2011 12:36:32 GMT
-    Status: 204 No Content
-    Connection: close
 
 
-## Try to delete same Thing again
 
-### Request
 
-`DELETE /thing/id`
 
-    curl -i -H 'Accept: application/json' -X DELETE http://localhost:7000/thing/1/
+<!-- 
 
-### Response
 
-    HTTP/1.1 404 Not Found
-    Date: Thu, 24 Feb 2011 12:36:32 GMT
-    Status: 404 Not Found
-    Connection: close
-    Content-Type: application/json
-    Content-Length: 35
+## Higher Learning Startup - DevOps 
+- Time it takes for building multiple environments
+- Issues we face with different environments
+- Scale-Up and Scale-Down On-Demand
 
-    {"status":404,"reason":"Not found"}
+## Higher Learning Startup - DevOps 
+- Visibility
+- Stability
+- Scalability
+- Security
+- Audit
 
-## Get deleted Thing
+## Higher Learning Startup - Backend
+- Time it takes for building multiple environments
+- Issues we face with different environments
+- Scale-Up and Scale-Down On-Demand
 
-### Request
-
-`GET /thing/1`
-
-    curl -i -H 'Accept: application/json' http://localhost:7000/thing/1
-
-### Response
-
-    HTTP/1.1 404 Not Found
-    Date: Thu, 24 Feb 2011 12:36:33 GMT
-    Status: 404 Not Found
-    Connection: close
-    Content-Type: application/json
-    Content-Length: 35
-
-    {"status":404,"reason":"Not found"}
-
-## Delete a Thing using the _method hack
-
-### Request
-
-`DELETE /thing/id`
-
-    curl -i -H 'Accept: application/json' -X POST -d'_method=DELETE' http://localhost:7000/thing/2/
-
-### Response
-
-    HTTP/1.1 204 No Content
-    Date: Thu, 24 Feb 2011 12:36:33 GMT
-    Status: 204 No Content
-    Connection: close
-
-
+## Higher Learning Startup - Frontend
+- Visibility
+- Stability
+- Scalability
+- Security
+- Audit -->
