@@ -1,4 +1,5 @@
 # Higher Learning Startup - Architecture
+<!-- GO SQLC -->
 <!-- https://dba.stackexchange.com/questions/298690/database-diagram-for-school-management-app
 https://medium.com/@vaibhavkansagara/database-design-of-udemy-66af2d42a03f -->
 
