@@ -1,0 +1,52 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+input CreateSessionInput {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
+input CreateUserInput {
+  email: String!
+  password: String!
+  username: String!
+}
+
+type Mutation {
+  createSession(createSessionInput: CreateSessionInput!): Session!
+  createUser(createUserInput: CreateUserInput!): User!
+  removeSession(id: Int!): Session!
+  removeUser(id: Int!): User!
+  updateSession(updateSessionInput: UpdateSessionInput!): Session!
+  updateUser(updateUserInput: UpdateUserInput!): User!
+}
+
+type Query {
+  session(id: Int!): Session!
+  user(id: Int!): User!
+}
+
+type Session {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
+input UpdateSessionInput {
+  """Example field (placeholder)"""
+  exampleField: Int
+  id: Int!
+}
+
+input UpdateUserInput {
+  email: String
+  id: Int!
+  password: String
+  username: String
+}
+
+type User {
+  _id: ID!
+  email: String!
+  username: String!
+}
