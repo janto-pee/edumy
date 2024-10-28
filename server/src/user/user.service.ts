@@ -28,6 +28,16 @@ export class UserService {
     });
   }
 
+  async verify(id: number) {
+    return this.userModel.findByIdAndUpdate(
+      id,
+      { verified: true },
+      {
+        new: true,
+      },
+    );
+  }
+
   async remove(id: number) {
     return this.userModel.findByIdAndDelete(id);
   }

@@ -42,19 +42,19 @@ export const UserSchema = SchemaFactory.createForClass(User);
 
 UserSchema.index({ email: 1 });
 
-UserSchema.pre('save', async function (next: any) {
-  let user = this as UserDocument;
-  console.log('model called 1', user.password);
-  if (!user.isModified('password')) {
-    return next();
-  }
+// UserSchema.pre('save', async function (next: any) {
+//   let user = this as UserDocument;
+//   console.log('model called 1', user.password);
+//   if (!user.isModified('password')) {
+//     return next();
+//   }
 
-  const salt = await bcrypt.genSalt(config.get<number>('saltWorkFactor'));
-  const hash = bcrypt.hashSync(user.password, salt);
-  user.password = hash;
+//   const salt = await bcrypt.genSalt(config.get<number>('saltWorkFactor'));
+//   const hash = bcrypt.hashSync(user.password, salt);
+//   user.password = hash;
 
-  return next();
-});
+//   return next();
+// });
 
 UserSchema.methods.comparePassword = async function (
   candidatePassword: string,

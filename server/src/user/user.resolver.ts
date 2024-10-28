@@ -30,6 +30,23 @@ export class UserResolver {
   }
 
   @Mutation(() => User)
+  async verifyUser(@Args('verifyUserInput') updateUserInput: UpdateUserInput) {
+    return await this.userService.update(updateUserInput.id, updateUserInput);
+  }
+
+  @Mutation(() => User)
+  async forgotUser(@Args('id', { type: () => Int }) id: number) {
+    return await this.userService.verify(id);
+  }
+
+  @Mutation(() => User)
+  async resetUserPassword(
+    @Args('verifyUserInput') updateUserInput: UpdateUserInput,
+  ) {
+    return await this.userService.update(updateUserInput.id, updateUserInput);
+  }
+
+  @Mutation(() => User)
   async removeUser(@Args('id', { type: () => Int }) id: number) {
     return await this.userService.remove(id);
   }
