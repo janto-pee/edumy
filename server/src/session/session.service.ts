@@ -11,7 +11,7 @@ export class SessionService {
     @InjectModel(Session.name) private sessionModel: Model<Session>,
   ) {}
 
-  async create(createSessionInput: CreateSessionInput) {
+  async createSession(createSessionInput: CreateSessionInput) {
     const createdUser = new this.sessionModel(createSessionInput);
     return await createdUser.save();
   }

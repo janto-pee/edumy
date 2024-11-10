@@ -12,16 +12,26 @@ export class SessionResolver {
   createSession(
     @Args('createSessionInput') createSessionInput: CreateSessionInput,
   ) {
-    return this.sessionService.create(createSessionInput);
+    return this.sessionService.createSession(createSessionInput);
   }
+
+  // @Query(() => [Session], { name: 'session' })
+  // findAll() {
+  //   return this.sessionService.findAll();
+  // }
 
   @Query(() => Session, { name: 'session' })
   findOne(@Args('id', { type: () => Int }) id: number) {
     return this.sessionService.findOne(id);
   }
 
-  @Mutation(() => Session)
-  updateSession(@Args('id', { type: () => Int }) id: number) {
-    return this.sessionService.update(id);
-  }
+  // @Mutation(() => Session)
+  // updateSession(@Args('updateSessionInput') updateSessionInput: UpdateSessionInput) {
+  //   return this.sessionService.update(updateSessionInput.id, updateSessionInput);
+  // }
+
+  //   @Mutation(() => Session)
+  //   removeSession(@Args('id', { type: () => Int }) id: number) {
+  //     return this.sessionService.remove(id);
+  //   }
 }

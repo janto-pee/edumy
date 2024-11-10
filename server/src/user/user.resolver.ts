@@ -3,51 +3,38 @@ import { UserService } from './user.service';
 import { User } from './entities/user.entity';
 import { CreateUserInput } from './dto/create-user.input';
 import { UpdateUserInput } from './dto/update-user.input';
+import { Schema as MongooseSchema } from 'mongoose';
 
 @Resolver(() => User)
 export class UserResolver {
   constructor(private readonly userService: UserService) {}
 
   @Mutation(() => User)
-  async createUser(@Args('createUserInput') createUserInput: CreateUserInput) {
-    console.log('create user called');
-    return await this.userService.create(createUserInput);
+  createUser(@Args('createUserInput') createUserInput: CreateUserInput) {
+    return this.userService.create(createUserInput);
   }
 
   @Query(() => [User], { name: 'user' })
-  async findAll() {
-    return await this.userService.findAll();
+  findAll() {
+    return this.userService.findAll();
   }
 
   @Query(() => User, { name: 'user' })
-  async findOne(@Args('id', { type: () => Int }) id: number) {
-    return await this.userService.findOne(id);
-  }
-
-  @Mutation(() => User)
-  async updateUser(@Args('updateUserInput') updateUserInput: UpdateUserInput) {
-    return await this.userService.update(updateUserInput.id, updateUserInput);
-  }
-
-  @Mutation(() => User)
-  async verifyUser(@Args('verifyUserInput') updateUserInput: UpdateUserInput) {
-    return await this.userService.update(updateUserInput.id, updateUserInput);
-  }
-
-  @Mutation(() => User)
-  async forgotUser(@Args('id', { type: () => Int }) id: number) {
-    return await this.userService.verify(id);
-  }
-
-  @Mutation(() => User)
-  async resetUserPassword(
-    @Args('verifyUserInput') updateUserInput: UpdateUserInput,
+  findOne(
+    @Args('id', { type: () => String }) id: MongooseSchema.Types.ObjectId,
   ) {
-    return await this.userService.update(updateUserInput.id, updateUserInput);
+    return this.userService.findOne(id);
   }
 
   @Mutation(() => User)
-  async removeUser(@Args('id', { type: () => Int }) id: number) {
-    return await this.userService.remove(id);
+  updateUser(@Args('updateUserInput') updateUserInput: UpdateUserInput) {
+    return this.userService.update(updateUserInput._id, updateUserInput);
+  }
+
+  @Mutation(() => User)
+  removeUser(
+    @Args('id', { type: () => String }) id: MongooseSchema.Types.ObjectId,
+  ) {
+    return this.userService.remove(id);
   }
 }
