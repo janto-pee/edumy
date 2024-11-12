@@ -1,26 +1,46 @@
 import { Injectable } from '@nestjs/common';
 import { CreateCourseGradeReportInput } from './dto/create-course-grade-report.input';
 import { UpdateCourseGradeReportInput } from './dto/update-course-grade-report.input';
+import { InjectModel } from '@nestjs/mongoose';
+import { Model } from 'mongoose';
+import { Schema as MongooseSchema } from 'mongoose';
+import { CourseGradeReport } from './entities/course-grade-report.entity';
 
 @Injectable()
 export class CourseGradeReportService {
-  create(createCourseGradeReportInput: CreateCourseGradeReportInput) {
-    return 'This action adds a new courseGradeReport';
+  constructor(
+    @InjectModel(CourseGradeReport.name)
+    private courseGradeReportModel: Model<CourseGradeReport>,
+  ) {}
+
+  async create(
+    CreateCourseGradeReportInput: CreateCourseGradeReportInput,
+  ): Promise<CourseGradeReport> {
+    const createdCourseGradeReport = new this.courseGradeReportModel(
+      CreateCourseGradeReportInput,
+    );
+    return await createdCourseGradeReport.save();
   }
 
-  findAll() {
-    return `This action returns all courseGradeReport`;
+  async findAll(): Promise<CourseGradeReport[]> {
+    return this.courseGradeReportModel.find().exec();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} courseGradeReport`;
+  async findOne(id: MongooseSchema.Types.ObjectId) {
+    return await this.courseGradeReportModel.findById(id);
   }
 
-  update(id: number, updateCourseGradeReportInput: UpdateCourseGradeReportInput) {
-    return `This action updates a #${id} courseGradeReport`;
+  async update(
+    id: MongooseSchema.Types.ObjectId,
+    updateCourseGradeReportInput: UpdateCourseGradeReportInput,
+  ) {
+    return await this.courseGradeReportModel.findByIdAndUpdate(
+      id,
+      updateCourseGradeReportInput,
+    );
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} courseGradeReport`;
+  async remove(id: MongooseSchema.Types.ObjectId) {
+    return await this.courseGradeReportModel.findByIdAndDelete(id);
   }
 }

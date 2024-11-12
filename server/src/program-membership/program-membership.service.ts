@@ -1,26 +1,46 @@
 import { Injectable } from '@nestjs/common';
 import { CreateProgramMembershipInput } from './dto/create-program-membership.input';
 import { UpdateProgramMembershipInput } from './dto/update-program-membership.input';
+import { InjectModel } from '@nestjs/mongoose';
+import { ProgramMembership } from './entities/program-membership.entity';
+import { Model } from 'mongoose';
+import { Schema as MongooseSchema } from 'mongoose';
 
 @Injectable()
 export class ProgramMembershipService {
-  create(createProgramMembershipInput: CreateProgramMembershipInput) {
-    return 'This action adds a new programMembership';
+  constructor(
+    @InjectModel(ProgramMembership.name)
+    private programMembershipModel: Model<ProgramMembership>,
+  ) {}
+
+  async create(
+    CreateProgramMembershipInput: CreateProgramMembershipInput,
+  ): Promise<ProgramMembership> {
+    const createdProgramMembership = new this.programMembershipModel(
+      CreateProgramMembershipInput,
+    );
+    return await createdProgramMembership.save();
   }
 
-  findAll() {
-    return `This action returns all programMembership`;
+  async findAll(): Promise<ProgramMembership[]> {
+    return this.programMembershipModel.find().exec();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} programMembership`;
+  async findOne(id: MongooseSchema.Types.ObjectId) {
+    return await this.programMembershipModel.findById(id);
   }
 
-  update(id: number, updateProgramMembershipInput: UpdateProgramMembershipInput) {
-    return `This action updates a #${id} programMembership`;
+  async update(
+    id: MongooseSchema.Types.ObjectId,
+    updateProgramMembershipInput: UpdateProgramMembershipInput,
+  ) {
+    return await this.programMembershipModel.findByIdAndUpdate(
+      id,
+      updateProgramMembershipInput,
+    );
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} programMembership`;
+  async remove(id: MongooseSchema.Types.ObjectId) {
+    return await this.programMembershipModel.findByIdAndDelete(id);
   }
 }

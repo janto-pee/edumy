@@ -1,5 +1,5 @@
 import { ObjectType, Field, Int } from '@nestjs/graphql';
-import { Prop } from '@nestjs/mongoose';
+import { Prop, SchemaFactory } from '@nestjs/mongoose';
 
 @ObjectType()
 export class CourseModule {
@@ -23,3 +23,4 @@ export class CourseModule {
   @Prop()
   deeplinkUrl: string;
 }
+export const CourseModuleSchema = SchemaFactory.createForClass(CourseModule);

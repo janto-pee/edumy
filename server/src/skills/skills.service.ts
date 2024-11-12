@@ -1,26 +1,36 @@
 import { Injectable } from '@nestjs/common';
 import { CreateSkillInput } from './dto/create-skill.input';
 import { UpdateSkillInput } from './dto/update-skill.input';
+import { InjectModel } from '@nestjs/mongoose';
+import { Skill } from './entities/Skill.entity';
+import { Model } from 'mongoose';
+import { Schema as MongooseSchema } from 'mongoose';
 
 @Injectable()
-export class SkillsService {
-  create(createSkillInput: CreateSkillInput) {
-    return 'This action adds a new skill';
+export class SkillService {
+  constructor(@InjectModel(Skill.name) private skillModel: Model<Skill>) {}
+
+  async create(CreateSkillInput: CreateSkillInput): Promise<Skill> {
+    const createdSkill = new this.skillModel(CreateSkillInput);
+    return await createdSkill.save();
   }
 
-  findAll() {
-    return `This action returns all skills`;
+  async findAll(): Promise<Skill[]> {
+    return this.skillModel.find().exec();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} skill`;
+  async findOne(id: MongooseSchema.Types.ObjectId) {
+    return await this.skillModel.findById(id);
   }
 
-  update(id: number, updateSkillInput: UpdateSkillInput) {
-    return `This action updates a #${id} skill`;
+  async update(
+    id: MongooseSchema.Types.ObjectId,
+    updateSkillInput: UpdateSkillInput,
+  ) {
+    return await this.skillModel.findByIdAndUpdate(id, updateSkillInput);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} skill`;
+  async remove(id: MongooseSchema.Types.ObjectId) {
+    return await this.skillModel.findByIdAndDelete(id);
   }
 }

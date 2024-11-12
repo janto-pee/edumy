@@ -1,5 +1,5 @@
 import { ObjectType, Field, Int } from '@nestjs/graphql';
-import { Prop } from '@nestjs/mongoose';
+import { Prop, SchemaFactory } from '@nestjs/mongoose';
 
 @ObjectType()
 export class Program {
@@ -26,3 +26,4 @@ export class Program {
   @Prop()
   contentType: string;
 }
+export const ProgramSchema = SchemaFactory.createForClass(Program);

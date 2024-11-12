@@ -10,24 +10,27 @@ import { Schema as MongooseSchema } from 'mongoose';
 export class UserService {
   constructor(@InjectModel(User.name) private userModel: Model<User>) {}
 
-  async create(CreateUserInput: CreateUserInput) {
+  async create(CreateUserInput: CreateUserInput): Promise<User> {
     const createdUser = new this.userModel(CreateUserInput);
     return await createdUser.save();
   }
 
-  findAll() {
-    return `This action returns all user`;
+  async findAll(): Promise<User[]> {
+    return this.userModel.find().exec();
   }
 
-  findOne(id: MongooseSchema.Types.ObjectId) {
-    return `This action returns a #${id} user`;
+  async findOne(id: MongooseSchema.Types.ObjectId) {
+    return await this.userModel.findById(id);
   }
 
-  update(id: MongooseSchema.Types.ObjectId, updateUserInput: UpdateUserInput) {
-    return `This action updates a #${id} user`;
+  async update(
+    id: MongooseSchema.Types.ObjectId,
+    updateUserInput: UpdateUserInput,
+  ) {
+    return await this.userModel.findByIdAndUpdate(id, updateUserInput);
   }
 
-  remove(id: MongooseSchema.Types.ObjectId) {
-    return `This action removes a #${id} user`;
+  async remove(id: MongooseSchema.Types.ObjectId) {
+    return await this.userModel.findByIdAndDelete(id);
   }
 }

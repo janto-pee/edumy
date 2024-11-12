@@ -1,26 +1,41 @@
 import { Injectable } from '@nestjs/common';
 import { CreateItemGradeInput } from './dto/create-item-grade.input';
 import { UpdateItemGradeInput } from './dto/update-item-grade.input';
+import { InjectModel } from '@nestjs/mongoose';
+import { ItemGrade } from './entities/item-grade.entity';
+import { Model } from 'mongoose';
+import { Schema as MongooseSchema } from 'mongoose';
 
 @Injectable()
 export class ItemGradeService {
-  create(createItemGradeInput: CreateItemGradeInput) {
-    return 'This action adds a new itemGrade';
+  constructor(
+    @InjectModel(ItemGrade.name) private itemGradeModel: Model<ItemGrade>,
+  ) {}
+
+  async create(CreateItemGradeInput: CreateItemGradeInput): Promise<ItemGrade> {
+    const createdItemGrade = new this.itemGradeModel(CreateItemGradeInput);
+    return await createdItemGrade.save();
   }
 
-  findAll() {
-    return `This action returns all itemGrade`;
+  async findAll(): Promise<ItemGrade[]> {
+    return this.itemGradeModel.find().exec();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} itemGrade`;
+  async findOne(id: MongooseSchema.Types.ObjectId) {
+    return await this.itemGradeModel.findById(id);
   }
 
-  update(id: number, updateItemGradeInput: UpdateItemGradeInput) {
-    return `This action updates a #${id} itemGrade`;
+  async update(
+    id: MongooseSchema.Types.ObjectId,
+    updateItemGradeInput: UpdateItemGradeInput,
+  ) {
+    return await this.itemGradeModel.findByIdAndUpdate(
+      id,
+      updateItemGradeInput,
+    );
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} itemGrade`;
+  async remove(id: MongooseSchema.Types.ObjectId) {
+    return await this.itemGradeModel.findByIdAndDelete(id);
   }
 }

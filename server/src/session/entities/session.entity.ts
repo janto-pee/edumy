@@ -1,12 +1,13 @@
 import { ObjectType, Field, Int, ID } from '@nestjs/graphql';
-import { Prop } from '@nestjs/mongoose';
+import { Prop, SchemaFactory } from '@nestjs/mongoose';
 import mongoose from 'mongoose';
 import { User } from 'src/user/entities/user.entity';
+import { HydratedDocument, Schema as MongooseSchema } from 'mongoose';
 
 @ObjectType()
 export class Session {
-  @Field(() => ID)
-  _id: number;
+  @Field(() => String)
+  _id: MongooseSchema.Types.ObjectId;
 
   @Prop({ type: { type: mongoose.Schema.Types.ObjectId, ref: 'User' } })
   @Field(() => [User])
@@ -20,3 +21,4 @@ export class Session {
   @Field()
   valid: string;
 }
+export const SessionSchema = SchemaFactory.createForClass(Session);

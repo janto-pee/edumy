@@ -1,26 +1,46 @@
 import { Injectable } from '@nestjs/common';
 import { CreateItemRiskFlagInput } from './dto/create-item-risk-flag.input';
 import { UpdateItemRiskFlagInput } from './dto/update-item-risk-flag.input';
+import { InjectModel } from '@nestjs/mongoose';
+import { ItemRiskFlag } from './entities/item-risk-flag.entity';
+import { Model } from 'mongoose';
+import { Schema as MongooseSchema } from 'mongoose';
 
 @Injectable()
 export class ItemRiskFlagService {
-  create(createItemRiskFlagInput: CreateItemRiskFlagInput) {
-    return 'This action adds a new itemRiskFlag';
+  constructor(
+    @InjectModel(ItemRiskFlag.name)
+    private itemRiskFlagModel: Model<ItemRiskFlag>,
+  ) {}
+
+  async create(
+    CreateItemRiskFlagInput: CreateItemRiskFlagInput,
+  ): Promise<ItemRiskFlag> {
+    const createdItemRiskFlag = new this.itemRiskFlagModel(
+      CreateItemRiskFlagInput,
+    );
+    return await createdItemRiskFlag.save();
   }
 
-  findAll() {
-    return `This action returns all itemRiskFlag`;
+  async findAll(): Promise<ItemRiskFlag[]> {
+    return this.itemRiskFlagModel.find().exec();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} itemRiskFlag`;
+  async findOne(id: MongooseSchema.Types.ObjectId) {
+    return await this.itemRiskFlagModel.findById(id);
   }
 
-  update(id: number, updateItemRiskFlagInput: UpdateItemRiskFlagInput) {
-    return `This action updates a #${id} itemRiskFlag`;
+  async update(
+    id: MongooseSchema.Types.ObjectId,
+    updateItemRiskFlagInput: UpdateItemRiskFlagInput,
+  ) {
+    return await this.itemRiskFlagModel.findByIdAndUpdate(
+      id,
+      updateItemRiskFlagInput,
+    );
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} itemRiskFlag`;
+  async remove(id: MongooseSchema.Types.ObjectId) {
+    return await this.itemRiskFlagModel.findByIdAndDelete(id);
   }
 }

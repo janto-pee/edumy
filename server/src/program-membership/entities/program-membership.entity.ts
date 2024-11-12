@@ -1,10 +1,12 @@
-import { ObjectType, Field, Int } from '@nestjs/graphql';
-import { Prop } from '@nestjs/mongoose';
+import { ObjectType, Field, Int, ID } from '@nestjs/graphql';
+import { Prop, SchemaFactory } from '@nestjs/mongoose';
+import { HydratedDocument, Schema as MongooseSchema } from 'mongoose';
 
 @ObjectType()
 export class ProgramMembership {
-  @Field(() => Int, { description: 'Example field (placeholder)' })
-  exampleField: number;
+  @Field(() => ID)
+  _id: MongooseSchema.Types.ObjectId;
+
   @Prop()
   joinedAt: string;
 
@@ -23,3 +25,5 @@ export class ProgramMembership {
   @Prop()
   email: string;
 }
+export const ProgramMembershipSchema =
+  SchemaFactory.createForClass(ProgramMembership);

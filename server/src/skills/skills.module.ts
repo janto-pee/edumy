@@ -1,8 +1,13 @@
 import { Module } from '@nestjs/common';
-import { SkillsService } from './skills.service';
 import { SkillsResolver } from './skills.resolver';
+import { MongooseModule } from '@nestjs/mongoose';
+import { Skill, SkillSchema } from './entities/Skill.entity';
+import { SkillService } from './skills.service';
 
 @Module({
-  providers: [SkillsResolver, SkillsService],
+  imports: [
+    MongooseModule.forFeature([{ name: Skill.name, schema: SkillSchema }]),
+  ],
+  providers: [SkillsResolver, SkillService],
 })
 export class SkillsModule {}

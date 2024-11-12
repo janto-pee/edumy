@@ -3,13 +3,19 @@ import { EnrollmentReportService } from './enrollment-report.service';
 import { EnrollmentReport } from './entities/enrollment-report.entity';
 import { CreateEnrollmentReportInput } from './dto/create-enrollment-report.input';
 import { UpdateEnrollmentReportInput } from './dto/update-enrollment-report.input';
+import { Schema as MongooseSchema } from 'mongoose';
 
 @Resolver(() => EnrollmentReport)
 export class EnrollmentReportResolver {
-  constructor(private readonly enrollmentReportService: EnrollmentReportService) {}
+  constructor(
+    private readonly enrollmentReportService: EnrollmentReportService,
+  ) {}
 
   @Mutation(() => EnrollmentReport)
-  createEnrollmentReport(@Args('createEnrollmentReportInput') createEnrollmentReportInput: CreateEnrollmentReportInput) {
+  createEnrollmentReport(
+    @Args('createEnrollmentReportInput')
+    createEnrollmentReportInput: CreateEnrollmentReportInput,
+  ) {
     return this.enrollmentReportService.create(createEnrollmentReportInput);
   }
 
@@ -19,17 +25,27 @@ export class EnrollmentReportResolver {
   }
 
   @Query(() => EnrollmentReport, { name: 'enrollmentReport' })
-  findOne(@Args('id', { type: () => Int }) id: number) {
+  findOne(
+    @Args('id', { type: () => String }) id: MongooseSchema.Types.ObjectId,
+  ) {
     return this.enrollmentReportService.findOne(id);
   }
 
   @Mutation(() => EnrollmentReport)
-  updateEnrollmentReport(@Args('updateEnrollmentReportInput') updateEnrollmentReportInput: UpdateEnrollmentReportInput) {
-    return this.enrollmentReportService.update(updateEnrollmentReportInput.id, updateEnrollmentReportInput);
+  updateEnrollmentReport(
+    @Args('updateEnrollmentReportInput')
+    updateEnrollmentReportInput: UpdateEnrollmentReportInput,
+  ) {
+    return this.enrollmentReportService.update(
+      updateEnrollmentReportInput._id,
+      updateEnrollmentReportInput,
+    );
   }
 
   @Mutation(() => EnrollmentReport)
-  removeEnrollmentReport(@Args('id', { type: () => Int }) id: number) {
+  removeEnrollmentReport(
+    @Args('id', { type: () => String }) id: MongooseSchema.Types.ObjectId,
+  ) {
     return this.enrollmentReportService.remove(id);
   }
 }

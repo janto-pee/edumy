@@ -4,6 +4,7 @@ import { UpdateSessionInput } from './dto/update-session.input';
 import { Session } from './entities/session.entity';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
+import { Schema as MongooseSchema } from 'mongoose';
 
 @Injectable()
 export class SessionService {
@@ -16,11 +17,11 @@ export class SessionService {
     return await createdUser.save();
   }
 
-  async findOne(id: number): Promise<Session> {
+  async findOne(id: MongooseSchema.Types.ObjectId): Promise<Session> {
     return await this.sessionModel.findById(id).exec();
   }
 
-  async update(id: number) {
+  async update(id: MongooseSchema.Types.ObjectId) {
     return this.sessionModel.findByIdAndUpdate(
       id,
       { valid: false },

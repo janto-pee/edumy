@@ -3,33 +3,45 @@ import { CourseService } from './course.service';
 import { Course } from './entities/course.entity';
 import { CreateCourseInput } from './dto/create-course.input';
 import { UpdateCourseInput } from './dto/update-course.input';
+import { Schema as MongooseSchema } from 'mongoose';
 
 @Resolver(() => Course)
 export class CourseResolver {
   constructor(private readonly courseService: CourseService) {}
 
   @Mutation(() => Course)
-  createCourse(@Args('createCourseInput') createCourseInput: CreateCourseInput) {
+  createCourse(
+    @Args('createCourseInput') createCourseInput: CreateCourseInput,
+  ) {
     return this.courseService.create(createCourseInput);
   }
 
   @Query(() => [Course], { name: 'course' })
-  findAll() {
-    return this.courseService.findAll();
+  async findCourses() {
+    return await this.courseService.findAll();
   }
 
   @Query(() => Course, { name: 'course' })
-  findOne(@Args('id', { type: () => Int }) id: number) {
-    return this.courseService.findOne(id);
+  async findOne(
+    @Args('id', { type: () => String }) id: MongooseSchema.Types.ObjectId,
+  ) {
+    return await this.courseService.findOne(id);
   }
 
   @Mutation(() => Course)
-  updateCourse(@Args('updateCourseInput') updateCourseInput: UpdateCourseInput) {
-    return this.courseService.update(updateCourseInput.id, updateCourseInput);
+  async updateCourse(
+    @Args('updateCourseInput') updateCourseInput: UpdateCourseInput,
+  ) {
+    return await this.courseService.update(
+      updateCourseInput._id,
+      updateCourseInput,
+    );
   }
 
   @Mutation(() => Course)
-  removeCourse(@Args('id', { type: () => Int }) id: number) {
-    return this.courseService.remove(id);
+  async removeCourse(
+    @Args('id', { type: () => String }) id: MongooseSchema.Types.ObjectId,
+  ) {
+    return await this.courseService.remove(id);
   }
 }

@@ -1,26 +1,46 @@
 import { Injectable } from '@nestjs/common';
+import { InjectModel } from '@nestjs/mongoose';
+import { UserSkillsetReport } from './entities/user-skillset-report.entity';
+import { Model } from 'mongoose';
+import { Schema as MongooseSchema } from 'mongoose';
 import { CreateUserSkillsetReportInput } from './dto/create-user-skillset-report.input';
 import { UpdateUserSkillsetReportInput } from './dto/update-user-skillset-report.input';
 
 @Injectable()
 export class UserSkillsetReportService {
-  create(createUserSkillsetReportInput: CreateUserSkillsetReportInput) {
-    return 'This action adds a new userSkillsetReport';
+  constructor(
+    @InjectModel(UserSkillsetReport.name)
+    private UserSkillsetReportModel: Model<UserSkillsetReport>,
+  ) {}
+
+  async create(
+    CreateUserSkillsetReportInput: CreateUserSkillsetReportInput,
+  ): Promise<UserSkillsetReport> {
+    const createdUserSkillsetReport = new this.UserSkillsetReportModel(
+      CreateUserSkillsetReportInput,
+    );
+    return await createdUserSkillsetReport.save();
   }
 
-  findAll() {
-    return `This action returns all userSkillsetReport`;
+  async findAll(): Promise<UserSkillsetReport[]> {
+    return this.UserSkillsetReportModel.find().exec();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} userSkillsetReport`;
+  async findOne(id: MongooseSchema.Types.ObjectId) {
+    return await this.UserSkillsetReportModel.findById(id);
   }
 
-  update(id: number, updateUserSkillsetReportInput: UpdateUserSkillsetReportInput) {
-    return `This action updates a #${id} userSkillsetReport`;
+  async update(
+    id: MongooseSchema.Types.ObjectId,
+    updateUserSkillsetReportInput: UpdateUserSkillsetReportInput,
+  ) {
+    return await this.UserSkillsetReportModel.findByIdAndUpdate(
+      id,
+      updateUserSkillsetReportInput,
+    );
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} userSkillsetReport`;
+  async remove(id: MongooseSchema.Types.ObjectId) {
+    return await this.UserSkillsetReportModel.findByIdAndDelete(id);
   }
 }

@@ -1,11 +1,17 @@
 import { ObjectType, Field, Int } from '@nestjs/graphql';
-import { Prop } from '@nestjs/mongoose';
+import { Prop, SchemaFactory } from '@nestjs/mongoose';
 
 @ObjectType()
 export class Skill {
   @Field(() => Int, { description: 'Example field (placeholder)' })
   exampleField: number;
-  @Prop() skillName: string;
-  @Prop() skillId: string;
-  @Prop() string: string;
+
+  @Field()
+  @Prop()
+  skillName: string;
+
+  @Field()
+  @Prop()
+  skillId: string;
 }
+export const SkillSchema = SchemaFactory.createForClass(Skill);

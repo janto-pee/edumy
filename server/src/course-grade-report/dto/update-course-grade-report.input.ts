@@ -1,8 +1,11 @@
 import { CreateCourseGradeReportInput } from './create-course-grade-report.input';
-import { InputType, Field, Int, PartialType } from '@nestjs/graphql';
+import { Schema as MongooseSchema } from 'mongoose';
+import { InputType, Field, PartialType } from '@nestjs/graphql';
 
 @InputType()
-export class UpdateCourseGradeReportInput extends PartialType(CreateCourseGradeReportInput) {
-  @Field(() => Int)
-  id: number;
+export class UpdateCourseGradeReportInput extends PartialType(
+  CreateCourseGradeReportInput,
+) {
+  @Field(() => String)
+  _id: MongooseSchema.Types.ObjectId;
 }

@@ -1,26 +1,41 @@
 import { Injectable } from '@nestjs/common';
 import { CreateCourseMetaDatumInput } from './dto/create-course-meta-datum.input';
 import { UpdateCourseMetaDatumInput } from './dto/update-course-meta-datum.input';
+import { InjectModel } from '@nestjs/mongoose';
+import { Model } from 'mongoose';
+import { Schema as MongooseSchema } from 'mongoose';
+import { CourseMetaDatum } from './entities/course-meta-datum.entity';
 
 @Injectable()
 export class CourseMetaDataService {
-  create(createCourseMetaDatumInput: CreateCourseMetaDatumInput) {
-    return 'This action adds a new courseMetaDatum';
+  constructor(
+    @InjectModel(CourseMetaDatum.name)
+    private courseMetaDatum: Model<CourseMetaDatum>,
+  ) {}
+
+  async create(
+    CreateCourseMetaDatumInput: CreateCourseMetaDatumInput,
+  ): Promise<CourseMetaDatum> {
+    const createdUser = new this.courseMetaDatum(CreateCourseMetaDatumInput);
+    return await createdUser.save();
   }
 
-  findAll() {
-    return `This action returns all courseMetaData`;
+  async findAll(): Promise<CourseMetaDatum[]> {
+    return this.courseMetaDatum.find().exec();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} courseMetaDatum`;
+  async findOne(id: MongooseSchema.Types.ObjectId) {
+    return await this.courseMetaDatum.findById(id);
   }
 
-  update(id: number, updateCourseMetaDatumInput: UpdateCourseMetaDatumInput) {
-    return `This action updates a #${id} courseMetaDatum`;
+  async update(
+    id: MongooseSchema.Types.ObjectId,
+    updateUserInput: UpdateCourseMetaDatumInput,
+  ) {
+    return await this.courseMetaDatum.findByIdAndUpdate(id, updateUserInput);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} courseMetaDatum`;
+  async remove(id: MongooseSchema.Types.ObjectId) {
+    return await this.courseMetaDatum.findByIdAndDelete(id);
   }
 }

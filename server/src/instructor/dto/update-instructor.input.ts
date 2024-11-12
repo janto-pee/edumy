@@ -1,8 +1,9 @@
 import { CreateInstructorInput } from './create-instructor.input';
-import { InputType, Field, Int, PartialType } from '@nestjs/graphql';
+import { Schema as MongooseSchema } from 'mongoose';
+import { InputType, Field, PartialType } from '@nestjs/graphql';
 
 @InputType()
 export class UpdateInstructorInput extends PartialType(CreateInstructorInput) {
-  @Field(() => Int)
-  id: number;
+  @Field(() => String)
+  _id: MongooseSchema.Types.ObjectId;
 }

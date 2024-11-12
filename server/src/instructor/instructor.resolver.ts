@@ -3,13 +3,16 @@ import { InstructorService } from './instructor.service';
 import { Instructor } from './entities/instructor.entity';
 import { CreateInstructorInput } from './dto/create-instructor.input';
 import { UpdateInstructorInput } from './dto/update-instructor.input';
+import { Schema as MongooseSchema } from 'mongoose';
 
 @Resolver(() => Instructor)
 export class InstructorResolver {
   constructor(private readonly instructorService: InstructorService) {}
 
   @Mutation(() => Instructor)
-  createInstructor(@Args('createInstructorInput') createInstructorInput: CreateInstructorInput) {
+  createInstructor(
+    @Args('createInstructorInput') createInstructorInput: CreateInstructorInput,
+  ) {
     return this.instructorService.create(createInstructorInput);
   }
 
@@ -19,17 +22,26 @@ export class InstructorResolver {
   }
 
   @Query(() => Instructor, { name: 'instructor' })
-  findOne(@Args('id', { type: () => Int }) id: number) {
+  findOne(
+    @Args('id', { type: () => String }) id: MongooseSchema.Types.ObjectId,
+  ) {
     return this.instructorService.findOne(id);
   }
 
   @Mutation(() => Instructor)
-  updateInstructor(@Args('updateInstructorInput') updateInstructorInput: UpdateInstructorInput) {
-    return this.instructorService.update(updateInstructorInput.id, updateInstructorInput);
+  updateInstructor(
+    @Args('updateInstructorInput') updateInstructorInput: UpdateInstructorInput,
+  ) {
+    return this.instructorService.update(
+      updateInstructorInput._id,
+      updateInstructorInput,
+    );
   }
 
   @Mutation(() => Instructor)
-  removeInstructor(@Args('id', { type: () => Int }) id: number) {
+  removeInstructor(
+    @Args('id', { type: () => String }) id: MongooseSchema.Types.ObjectId,
+  ) {
     return this.instructorService.remove(id);
   }
 }

@@ -1,10 +1,11 @@
 import { ObjectType, Field, Int } from '@nestjs/graphql';
-import { Prop } from '@nestjs/mongoose';
+import { Prop, SchemaFactory } from '@nestjs/mongoose';
 
 @ObjectType()
 export class CourseGradeReport {
   @Field(() => Int, { description: 'Example field (placeholder)' })
   exampleField: number;
+
   @Prop()
   completedAt: number;
 
@@ -50,3 +51,5 @@ export class CourseGradeReport {
   @Prop()
   isCompleted: boolean;
 }
+export const CourseGradeReportSchema =
+  SchemaFactory.createForClass(CourseGradeReport);

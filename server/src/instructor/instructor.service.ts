@@ -1,26 +1,43 @@
 import { Injectable } from '@nestjs/common';
-import { CreateInstructorInput } from './dto/create-instructor.input';
-import { UpdateInstructorInput } from './dto/update-instructor.input';
+import { CreateInstructorInput } from './dto/create-Instructor.input';
+import { UpdateInstructorInput } from './dto/update-Instructor.input';
+import { InjectModel } from '@nestjs/mongoose';
+import { Instructor } from './entities/Instructor.entity';
+import { Model } from 'mongoose';
+import { Schema as MongooseSchema } from 'mongoose';
 
 @Injectable()
 export class InstructorService {
-  create(createInstructorInput: CreateInstructorInput) {
-    return 'This action adds a new instructor';
+  constructor(
+    @InjectModel(Instructor.name) private instructorModel: Model<Instructor>,
+  ) {}
+
+  async create(
+    CreateInstructorInput: CreateInstructorInput,
+  ): Promise<Instructor> {
+    const createdInstructor = new this.instructorModel(CreateInstructorInput);
+    return await createdInstructor.save();
   }
 
-  findAll() {
-    return `This action returns all instructor`;
+  async findAll(): Promise<Instructor[]> {
+    return this.instructorModel.find().exec();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} instructor`;
+  async findOne(id: MongooseSchema.Types.ObjectId) {
+    return await this.instructorModel.findById(id);
   }
 
-  update(id: number, updateInstructorInput: UpdateInstructorInput) {
-    return `This action updates a #${id} instructor`;
+  async update(
+    id: MongooseSchema.Types.ObjectId,
+    updateInstructorInput: UpdateInstructorInput,
+  ) {
+    return await this.instructorModel.findByIdAndUpdate(
+      id,
+      updateInstructorInput,
+    );
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} instructor`;
+  async remove(id: MongooseSchema.Types.ObjectId) {
+    return await this.instructorModel.findByIdAndDelete(id);
   }
 }

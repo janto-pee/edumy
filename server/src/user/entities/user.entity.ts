@@ -23,7 +23,7 @@
 //   @Prop({ default: false })
 //   verified: boolean;
 // }
-import { Field, ObjectType } from '@nestjs/graphql';
+import { Field, ID, ObjectType } from '@nestjs/graphql';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { HydratedDocument, Schema as MongooseSchema } from 'mongoose';
 
@@ -32,20 +32,21 @@ export type UserDocument = HydratedDocument<User>;
 @ObjectType()
 @Schema()
 export class User {
-  @Field(() => String, { description: 'Example field (placeholder)' })
+  @Field(() => ID)
   _id: MongooseSchema.Types.ObjectId;
 
-  @Field(() => String)
   @Prop()
+  @Field({ nullable: false })
   name: string;
 
-  @Field(() => String)
   @Prop()
-  email: number;
+  @Field({ nullable: false })
+  email: string;
 
-  @Field(() => String)
   @Prop()
+  @Field({ nullable: false })
   password: string;
 }
 // export type UserDocument = User && Docum
+
 export const UserSchema = SchemaFactory.createForClass(User);
