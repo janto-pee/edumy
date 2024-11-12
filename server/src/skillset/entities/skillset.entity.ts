@@ -1,8 +1,9 @@
 import { ObjectType, Field, Int } from '@nestjs/graphql';
-import { Prop, SchemaFactory } from '@nestjs/mongoose';
+import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { HydratedDocument, Schema as MongooseSchema } from 'mongoose';
 
 @ObjectType()
+@Schema()
 export class Skillset {
   @Field()
   _id: MongooseSchema.Types.ObjectId;

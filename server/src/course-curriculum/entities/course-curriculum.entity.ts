@@ -5,6 +5,7 @@ import { HydratedDocument, Schema as MongooseSchema } from 'mongoose';
 export type CourseCurriculumDocument = HydratedDocument<CourseCurriculum>;
 
 @ObjectType()
+@Schema()
 export class CourseCurriculum {
   @Field(() => ID)
   _id: MongooseSchema.Types.ObjectId;

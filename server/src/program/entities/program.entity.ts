@@ -1,7 +1,8 @@
 import { ObjectType, Field, Int } from '@nestjs/graphql';
-import { Prop, SchemaFactory } from '@nestjs/mongoose';
+import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 
 @ObjectType()
+@Schema()
 export class Program {
   @Field(() => Int, { description: 'Example field (placeholder)' })
   exampleField: number;

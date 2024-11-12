@@ -1,10 +1,11 @@
 import { ObjectType, Field, Int, ID } from '@nestjs/graphql';
-import { Prop, SchemaFactory } from '@nestjs/mongoose';
+import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import mongoose from 'mongoose';
 import { User } from 'src/user/entities/user.entity';
 import { HydratedDocument, Schema as MongooseSchema } from 'mongoose';
 
 @ObjectType()
+@Schema()
 export class Session {
   @Field(() => String)
   _id: MongooseSchema.Types.ObjectId;

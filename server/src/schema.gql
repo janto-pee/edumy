@@ -151,8 +151,8 @@ input CreateSessionInput {
 }
 
 input CreateSkillInput {
-  """Example field (placeholder)"""
-  exampleField: Int!
+  skillId: String!
+  skillName: String!
 }
 
 input CreateUserInput {
@@ -279,7 +279,7 @@ type Session {
 
 type Skill {
   """Example field (placeholder)"""
-  exampleField: Int!
+  _id: Int!
   skillId: String!
   skillName: String!
 }
@@ -396,9 +396,8 @@ input UpdateProgramMembershipInput {
 
 input UpdateSkillInput {
   _id: String!
-
-  """Example field (placeholder)"""
-  exampleField: Int
+  skillId: String
+  skillName: String
 }
 
 input UpdateUserInput {
