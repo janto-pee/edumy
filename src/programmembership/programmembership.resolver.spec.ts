@@ -1,16 +1,16 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { ProgrammembershipResolver } from './programmembership.resolver';
+import { ProgramMembershipResolver } from './programmembership.resolver';
 import { ProgrammembershipService } from './programmembership.service';
 
-describe('ProgrammembershipResolver', () => {
-  let resolver: ProgrammembershipResolver;
+describe('ProgramMembershipResolver', () => {
+  let resolver: ProgramMembershipResolver;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [ProgrammembershipResolver, ProgrammembershipService],
+      providers: [ProgramMembershipResolver, ProgrammembershipService],
     }).compile();
 
-    resolver = module.get<ProgrammembershipResolver>(ProgrammembershipResolver);
+    resolver = module.get<ProgramMembershipResolver>(ProgramMembershipResolver);
   });
 
   it('should be defined', () => {

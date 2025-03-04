@@ -14,10 +14,15 @@ type Address {
   street2: String!
 }
 
+type Author {
+  _id: ID!
+  firstName: String!
+  lastName: String!
+}
+
 type Content {
   _id: ID!
   content: String!
-  courseId: [Course!]!
   createdAt: DateTime!
   duration: String!
   text: String!
@@ -26,7 +31,6 @@ type Content {
 
 type Contentitem {
   _id: ID!
-  content: [Content!]!
   contentDuration: String!
   contentType: String!
   reference: String!
@@ -56,7 +60,10 @@ type Course {
 type Coursemetada {
   _id: ID!
   contentType: String!
-  courseId: [Course!]!
+  domainTypes: String!
+  estimatedLearningTime: String!
+  promoPhoto: String!
+  skills: String!
   title: String!
 }
 
@@ -64,7 +71,6 @@ input CreateAddressInput {
   city: String!
   country: String!
   country_code: String!
-  email: String!
   postal_code: String!
   state_province_code: String!
   state_province_name: String!
@@ -72,44 +78,77 @@ input CreateAddressInput {
   street2: String!
 }
 
+input CreateAuthorInput {
+  firstName: String!
+  lastName: String!
+}
+
 input CreateContentInput {
-  """Example field (placeholder)"""
-  exampleField: Int!
+  content: String!
+  duration: String!
+  text: String!
+  title: String!
 }
 
 input CreateContentitemInput {
-  """Example field (placeholder)"""
-  exampleField: Int!
+  contentDuration: String!
+  contentType: String!
+  reference: String!
+  title: String!
 }
 
 input CreateCourseInput {
-  """Example field (placeholder)"""
-  exampleField: Int!
+  clipMetaData: String!
+  contentId: String!
+  contentType: String!
+  courseMetaData: String!
+  description: String!
+  difficultyLevel: String!
+  extraMetaData: String!
+  instructors: String!
+  languageCode: String!
+  name: String!
+  partner: String!
+  partners: String!
+  program: String!
+  slug: String!
+  specializationMetaData: String!
+  subtitleCodes: String!
 }
 
 input CreateCoursemetadatumInput {
-  """Example field (placeholder)"""
-  exampleField: Int!
+  contentType: String!
+  domainTypes: String!
+  estimatedLearningTime: String!
+  promoPhoto: String!
+  skills: String!
+  title: String!
 }
 
 input CreateEnrollmentInput {
-  """Example field (placeholder)"""
-  exampleField: Int!
+  contentType: String!
+  title: String!
 }
 
 input CreateProgramInput {
-  """Example field (placeholder)"""
-  exampleField: Int!
+  contentId: String!
+  contentType: String!
+  name: String!
+  tagline: String!
+  url: String!
 }
 
 input CreateProgrammembershipInput {
-  """Example field (placeholder)"""
-  exampleField: Int!
+  email: String!
+  externalId: String!
+  fullName: String!
+  joinedAt: String!
+  programId: String!
 }
 
 input CreateSkillInput {
-  """Example field (placeholder)"""
-  exampleField: Int!
+  skillId: String!
+  skillName: String!
 }
 
 """
@@ -120,12 +159,12 @@ scalar DateTime
 type Enrollment {
   _id: ID!
   contentType: String!
-  courseId: [Course!]!
   title: String!
 }
 
 type Mutation {
   createAddress(createAddressInput: CreateAddressInput!): Address!
+  createAuthor(createAuthorInput: CreateAuthorInput!): Author!
   createContent(createContentInput: CreateContentInput!): Content!
   createContentitem(createContentitemInput: CreateContentitemInput!): Contentitem!
   createCourse(createCourseInput: CreateCourseInput!): Course!
@@ -134,16 +173,18 @@ type Mutation {
   createProgram(createProgramInput: CreateProgramInput!): Program!
   createProgramMembership(createProgramMembershipInput: CreateProgrammembershipInput!): ProgramMembership!
   createSkill(createSkillInput: CreateSkillInput!): Skill!
-  removeAddress(id: Int!): Address!
-  removeContent(id: Int!): Content!
-  removeContentitem(id: Int!): Contentitem!
-  removeCourse(id: Int!): Course!
-  removeCoursemetadatum(id: Int!): Coursemetada!
-  removeEnrollment(id: Int!): Enrollment!
-  removeProgram(id: Int!): Program!
-  removeProgrammembership(id: Int!): ProgramMembership!
-  removeSkill(id: Int!): Skill!
+  removeAddress(id: String!): Address!
+  removeAuthor(id: String!): Author!
+  removeContent(id: String!): Content!
+  removeContentitem(id: String!): Contentitem!
+  removeCourse(id: String!): Course!
+  removeCoursemetadatum(id: String!): Coursemetada!
+  removeEnrollment(id: String!): Enrollment!
+  removeProgram(id: String!): Program!
+  removeProgrammembership(id: String!): ProgramMembership!
+  removeSkill(id: String!): Skill!
   updateAddress(updateAddressInput: UpdateAddressInput!): Address!
+  updateAuthor(updateAuthorInput: UpdateAuthorInput!): Author!
   updateContent(updateContentInput: UpdateContentInput!): Content!
   updateContentitem(updateContentitemInput: UpdateContentitemInput!): Contentitem!
   updateCourse(updateCourseInput: UpdateCourseInput!): Course!
@@ -156,24 +197,34 @@ type Mutation {
 
 type Program {
   _id: ID!
-  courseId: [Course!]!
+  contentId: String!
+  contentType: String!
+  name: String!
+  tagline: String!
+  url: String!
 }
 
 type ProgramMembership {
   _id: ID!
+  email: String!
+  externalId: String!
+  fullName: String!
+  joinedAt: String!
+  programId: String!
 }
 
 type Query {
-  address(id: Int!): Address!
-  content(id: Int!): Content!
-  contentitem(id: Int!): Contentitem!
-  course(id: Int!): Course!
+  address(id: String!): Address!
+  author(id: String!): Author!
+  content(id: String!): Content!
+  contentitem(id: String!): Contentitem!
+  course(id: String!): Course!
   coursemetadata: [Coursemetada!]!
-  coursemetadatum(id: Int!): Coursemetada!
-  enrollment(id: Int!): Enrollment!
-  program(id: Int!): Program!
-  programMembership(id: Int!): ProgramMembership!
-  skill(id: Int!): Skill!
+  coursemetadatum(id: String!): Coursemetada!
+  enrollment(id: String!): Enrollment!
+  program(id: String!): Program!
+  programMembership(id: String!): ProgramMembership!
+  skill(id: String!): Skill!
 }
 
 type Skill {
@@ -188,7 +239,6 @@ input UpdateAddressInput {
   city: String
   country: String
   country_code: String
-  email: String
   postal_code: String
   state_province_code: String
   state_province_name: String
@@ -196,50 +246,84 @@ input UpdateAddressInput {
   street2: String
 }
 
+input UpdateAuthorInput {
+  firstName: String
+  id: ID!
+  lastName: String
+}
+
 input UpdateContentInput {
-  """Example field (placeholder)"""
-  exampleField: Int
-  id: Int!
+  content: String
+  duration: String
+  id: ID!
+  text: String
+  title: String
 }
 
 input UpdateContentitemInput {
-  """Example field (placeholder)"""
-  exampleField: Int
-  id: Int!
+  contentDuration: String
+  contentType: String
+  id: ID!
+  reference: String
+  title: String
 }
 
 input UpdateCourseInput {
-  """Example field (placeholder)"""
-  exampleField: Int
-  id: Int!
+  _id: ID!
+  clipMetaData: String
+  contentId: String
+  contentType: String
+  courseMetaData: String
+  description: String
+  difficultyLevel: String
+  extraMetaData: String
+  instructors: String
+  languageCode: String
+  name: String
+  partner: String
+  partners: String
+  program: String
+  slug: String
+  specializationMetaData: String
+  subtitleCodes: String
 }
 
 input UpdateCoursemetadatumInput {
-  """Example field (placeholder)"""
-  exampleField: Int
-  id: Int!
+  contentType: String
+  domainTypes: String
+  estimatedLearningTime: String
+  id: ID!
+  promoPhoto: String
+  skills: String
+  title: String
 }
 
 input UpdateEnrollmentInput {
-  """Example field (placeholder)"""
-  exampleField: Int
-  id: Int!
+  contentType: String
+  id: ID!
+  title: String
 }
 
 input UpdateProgramInput {
-  """Example field (placeholder)"""
-  exampleField: Int
-  id: Int!
+  contentId: String
+  contentType: String
+  id: ID!
+  name: String
+  tagline: String
+  url: String
 }
 
 input UpdateProgrammembershipInput {
-  """Example field (placeholder)"""
-  exampleField: Int
-  id: Int!
+  email: String
+  externalId: String
+  fullName: String
+  id: ID!
+  joinedAt: String
+  programId: String
 }
 
 input UpdateSkillInput {
-  """Example field (placeholder)"""
-  exampleField: Int
-  id: Int!
+  id: ID!
+  skillId: String
+  skillName: String
 }

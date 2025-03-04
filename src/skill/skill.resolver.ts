@@ -19,7 +19,7 @@ export class SkillResolver {
   }
 
   @Query(() => Skill, { name: 'skill' })
-  findOne(@Args('id', { type: () => Int }) id: number) {
+  findOne(@Args('id', { type: () => String }) id: string) {
     return this.skillService.findOne(id);
   }
 
@@ -29,7 +29,7 @@ export class SkillResolver {
   }
 
   @Mutation(() => Skill)
-  removeSkill(@Args('id', { type: () => Int }) id: number) {
+  removeSkill(@Args('id', { type: () => String }) id: string) {
     return this.skillService.remove(id);
   }
 }

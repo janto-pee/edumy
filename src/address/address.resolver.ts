@@ -22,24 +22,22 @@ export class AddressResolver {
   }
 
   @Query(() => Address, { name: 'address' })
-  findOne(@Args('id', { type: () => Int }) id: MongooseSchema.Types.ObjectId) {
+  findOne(@Args('id', { type: () => String }) id: string) {
     return this.addressService.findOne(id);
   }
 
   @Mutation(() => Address)
-  updateAddress(
+  async updateAddress(
     @Args('updateAddressInput') updateAddressInput: UpdateAddressInput,
   ) {
-    return this.addressService.update(
+    return await this.addressService.update(
       updateAddressInput._id,
       updateAddressInput,
     );
   }
 
   @Mutation(() => Address)
-  removeAddress(
-    @Args('id', { type: () => Int }) id: MongooseSchema.Types.ObjectId,
-  ) {
+  removeAddress(@Args('id', { type: () => String }) id: string) {
     return this.addressService.remove(id);
   }
 }

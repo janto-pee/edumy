@@ -1,19 +1,23 @@
 import { ObjectType, Field, ID } from '@nestjs/graphql';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import mongoose, { HydratedDocument, Schema as MongooseSchema } from 'mongoose';
+import mongoose, {
+  HydratedDocument,
+  Schema as MongooseSchema,
+  now,
+} from 'mongoose';
 import { Course } from 'src/course/entities/course.entity';
 
 export type ContentDocument = HydratedDocument<Content>;
 
-@ObjectType()
 @Schema()
+@ObjectType()
 export class Content {
   @Field(() => ID)
-  _id: MongooseSchema.Types.ObjectId;
+  _id: string;
 
-  @Prop({ type: { type: mongoose.Schema.Types.ObjectId, ref: 'Course' } })
-  @Field(() => [Course])
-  courseId: Course;
+  // @Prop({ type: { type: mongoose.Schema.Types.ObjectId, ref: 'Course' } })
+  // @Field(() => [Course])
+  // courseId: Course;
 
   @Prop()
   @Field({ nullable: false })
@@ -32,7 +36,7 @@ export class Content {
   @Field({ nullable: false })
   duration: string;
 
-  @Prop()
+  @Prop({ default: now() })
   @Field({ nullable: false })
   createdAt: Date;
 }

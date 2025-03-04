@@ -9,7 +9,9 @@ export class CourseResolver {
   constructor(private readonly courseService: CourseService) {}
 
   @Mutation(() => Course)
-  createCourse(@Args('createCourseInput') createCourseInput: CreateCourseInput) {
+  createCourse(
+    @Args('createCourseInput') createCourseInput: CreateCourseInput,
+  ) {
     return this.courseService.create(createCourseInput);
   }
 
@@ -19,17 +21,19 @@ export class CourseResolver {
   }
 
   @Query(() => Course, { name: 'course' })
-  findOne(@Args('id', { type: () => Int }) id: number) {
+  findOne(@Args('id', { type: () => String }) id: string) {
     return this.courseService.findOne(id);
   }
 
   @Mutation(() => Course)
-  updateCourse(@Args('updateCourseInput') updateCourseInput: UpdateCourseInput) {
-    return this.courseService.update(updateCourseInput.id, updateCourseInput);
+  updateCourse(
+    @Args('updateCourseInput') updateCourseInput: UpdateCourseInput,
+  ) {
+    return this.courseService.update(updateCourseInput._id, updateCourseInput);
   }
 
   @Mutation(() => Course)
-  removeCourse(@Args('id', { type: () => Int }) id: number) {
+  removeCourse(@Args('id', { type: () => String }) id: string) {
     return this.courseService.remove(id);
   }
 }

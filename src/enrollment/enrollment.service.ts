@@ -1,26 +1,41 @@
 import { Injectable } from '@nestjs/common';
 import { CreateEnrollmentInput } from './dto/create-enrollment.input';
 import { UpdateEnrollmentInput } from './dto/update-enrollment.input';
+import { Model } from 'mongoose';
+import { InjectModel } from '@nestjs/mongoose';
+import { Enrollment } from './entities/enrollment.entity';
 
 @Injectable()
 export class EnrollmentService {
-  create(createEnrollmentInput: CreateEnrollmentInput) {
-    return 'This action adds a new enrollment';
+  constructor(
+    @InjectModel(Enrollment.name) private enrollmentModel: Model<Enrollment>,
+  ) {}
+
+  async create(
+    createEnrollmentDto: CreateEnrollmentInput,
+  ): Promise<Enrollment> {
+    const createdEnrollment =
+      await this.enrollmentModel.create(createEnrollmentDto);
+    return createdEnrollment;
   }
 
-  findAll() {
-    return `This action returns all enrollment`;
+  async findAll(): Promise<Enrollment[]> {
+    return this.enrollmentModel.find().exec();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} enrollment`;
+  async findOne(id: string) {
+    return await this.enrollmentModel.findById(id);
   }
 
-  update(id: number, updateEnrollmentInput: UpdateEnrollmentInput) {
-    return `This action updates a #${id} enrollment`;
+  async update(id: string, updateEnrollmentInput: UpdateEnrollmentInput) {
+    return await this.enrollmentModel.findByIdAndUpdate(
+      id,
+      updateEnrollmentInput,
+      { new: true },
+    );
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} enrollment`;
+  async remove(id: string) {
+    return await this.enrollmentModel.findByIdAndDelete(id);
   }
 }

@@ -22,7 +22,7 @@ export class ContentitemResolver {
   }
 
   @Query(() => Contentitem, { name: 'contentitem' })
-  findOne(@Args('id', { type: () => Int }) id: number) {
+  findOne(@Args('id', { type: () => String }) id: string) {
     return this.contentitemService.findOne(id);
   }
 
@@ -38,7 +38,7 @@ export class ContentitemResolver {
   }
 
   @Mutation(() => Contentitem)
-  removeContentitem(@Args('id', { type: () => Int }) id: number) {
+  removeContentitem(@Args('id', { type: () => String }) id: string) {
     return this.contentitemService.remove(id);
   }
 }

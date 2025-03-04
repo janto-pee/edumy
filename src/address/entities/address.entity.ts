@@ -1,20 +1,12 @@
 import { ObjectType, Field, ID } from '@nestjs/graphql';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+// import mongoose, { HydratedDocument, Schema as MongooseSchema } from 'mongoose';
 
-import mongoose, { HydratedDocument, Schema as MongooseSchema } from 'mongoose';
-// import { User } from 'src/user/entities/user.entity';
-
-export type AddressDocument = HydratedDocument<Address>;
-
-@ObjectType()
 @Schema()
+@ObjectType()
 export class Address {
   @Field(() => ID)
-  _id: MongooseSchema.Types.ObjectId;
-
-  // @Prop({ type: { type: mongoose.Schema.Types.ObjectId, ref: User.name } })
-  // @Field(() => User)
-  // user: User;
+  _id: string;
 
   @Prop()
   @Field()

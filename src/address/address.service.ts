@@ -21,18 +21,17 @@ export class AddressService {
     return this.addressModel.find().exec();
   }
 
-  async findOne(id: MongooseSchema.Types.ObjectId) {
+  async findOne(id: string) {
     return await this.addressModel.findById(id);
   }
 
-  async update(
-    id: MongooseSchema.Types.ObjectId,
-    updateAddressInput: UpdateAddressInput,
-  ) {
-    return await this.addressModel.findByIdAndUpdate(id, updateAddressInput);
+  async update(id: string, updateAddressInput: UpdateAddressInput) {
+    return await this.addressModel.findByIdAndUpdate(id, updateAddressInput, {
+      new: true,
+    });
   }
 
-  async remove(id: MongooseSchema.Types.ObjectId) {
+  async remove(id: string) {
     return await this.addressModel.findByIdAndDelete(id);
   }
 }

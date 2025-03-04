@@ -1,21 +1,19 @@
 import { ObjectType, Field, ID } from '@nestjs/graphql';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { HydratedDocument, Schema as MongooseSchema } from 'mongoose';
+import { Schema as MongooseSchema } from 'mongoose';
 
-export type SkillDocument = HydratedDocument<Skill>;
-
-@ObjectType()
 @Schema()
+@ObjectType()
 export class Skill {
   @Field(() => ID, { description: 'id of session' })
-  _id: MongooseSchema.Types.ObjectId;
+  _id: string;
 
-  @Field()
   @Prop()
+  @Field()
   skillName: string;
 
-  @Field()
   @Prop()
+  @Field()
   skillId: string;
 }
 export const SkillSchema = SchemaFactory.createForClass(Skill);

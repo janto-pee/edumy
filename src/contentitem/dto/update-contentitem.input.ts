@@ -1,8 +1,10 @@
 import { CreateContentitemInput } from './create-contentitem.input';
-import { InputType, Field, Int, PartialType } from '@nestjs/graphql';
+import { InputType, Field, Int, PartialType, ID } from '@nestjs/graphql';
 
 @InputType()
-export class UpdateContentitemInput extends PartialType(CreateContentitemInput) {
-  @Field(() => Int)
-  id: number;
+export class UpdateContentitemInput extends PartialType(
+  CreateContentitemInput,
+) {
+  @Field(() => ID)
+  id: string;
 }

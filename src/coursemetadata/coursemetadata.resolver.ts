@@ -22,7 +22,7 @@ export class CoursemetadataResolver {
   }
 
   @Query(() => Coursemetada, { name: 'coursemetadatum' })
-  findOne(@Args('id', { type: () => Int }) id: number) {
+  findOne(@Args('id', { type: () => String }) id: string) {
     return this.coursemetadataService.findOne(id);
   }
 
@@ -38,7 +38,7 @@ export class CoursemetadataResolver {
   }
 
   @Mutation(() => Coursemetada)
-  removeCoursemetadatum(@Args('id', { type: () => Int }) id: number) {
+  removeCoursemetadatum(@Args('id', { type: () => String }) id: string) {
     return this.coursemetadataService.remove(id);
   }
 }

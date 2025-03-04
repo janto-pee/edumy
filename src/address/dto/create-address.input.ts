@@ -6,9 +6,6 @@ export class CreateAddressInput {
   street: string;
 
   @Field()
-  email: string;
-
-  @Field()
   street2: string;
 
   @Field()

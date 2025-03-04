@@ -1,10 +1,10 @@
 import { InputType, Field } from '@nestjs/graphql';
 
 @InputType()
-export class CreateSkillInput {
+export class CreateAuthorInput {
   @Field()
-  skillName: string;
+  firstName: string;
 
   @Field()
-  skillId: string;
+  lastName: string;
 }

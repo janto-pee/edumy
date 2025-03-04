@@ -5,5 +5,5 @@ import { Schema as MongooseSchema } from 'mongoose';
 @InputType()
 export class UpdateAddressInput extends PartialType(CreateAddressInput) {
   @Field(() => String)
-  _id: MongooseSchema.Types.ObjectId;
+  _id: string;
 }

@@ -1,26 +1,36 @@
 import { Injectable } from '@nestjs/common';
 import { CreateProgramInput } from './dto/create-program.input';
 import { UpdateProgramInput } from './dto/update-program.input';
+import { InjectModel } from '@nestjs/mongoose';
+import { Program } from './entities/program.entity';
+import { Model } from 'mongoose';
 
 @Injectable()
 export class ProgramService {
-  create(createProgramInput: CreateProgramInput) {
-    return 'This action adds a new program';
+  constructor(
+    @InjectModel(Program.name) private programModel: Model<Program>,
+  ) {}
+
+  async create(createProgramDto: CreateProgramInput): Promise<Program> {
+    const createdProgram = await this.programModel.create(createProgramDto);
+    return createdProgram;
   }
 
-  findAll() {
-    return `This action returns all program`;
+  async findAll(): Promise<Program[]> {
+    return this.programModel.find().exec();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} program`;
+  async findOne(id: string) {
+    return await this.programModel.findById(id);
   }
 
-  update(id: number, updateProgramInput: UpdateProgramInput) {
-    return `This action updates a #${id} program`;
+  async update(id: string, updateProgramInput: UpdateProgramInput) {
+    return await this.programModel.findByIdAndUpdate(id, updateProgramInput, {
+      new: true,
+    });
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} program`;
+  async remove(id: string) {
+    return await this.programModel.findByIdAndDelete(id);
   }
 }

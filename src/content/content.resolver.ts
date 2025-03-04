@@ -9,7 +9,9 @@ export class ContentResolver {
   constructor(private readonly contentService: ContentService) {}
 
   @Mutation(() => Content)
-  createContent(@Args('createContentInput') createContentInput: CreateContentInput) {
+  createContent(
+    @Args('createContentInput') createContentInput: CreateContentInput,
+  ) {
     return this.contentService.create(createContentInput);
   }
 
@@ -19,17 +21,22 @@ export class ContentResolver {
   }
 
   @Query(() => Content, { name: 'content' })
-  findOne(@Args('id', { type: () => Int }) id: number) {
+  findOne(@Args('id', { type: () => String }) id: string) {
     return this.contentService.findOne(id);
   }
 
   @Mutation(() => Content)
-  updateContent(@Args('updateContentInput') updateContentInput: UpdateContentInput) {
-    return this.contentService.update(updateContentInput.id, updateContentInput);
+  updateContent(
+    @Args('updateContentInput') updateContentInput: UpdateContentInput,
+  ) {
+    return this.contentService.update(
+      updateContentInput.id,
+      updateContentInput,
+    );
   }
 
   @Mutation(() => Content)
-  removeContent(@Args('id', { type: () => Int }) id: number) {
+  removeContent(@Args('id', { type: () => String }) id: string) {
     return this.contentService.remove(id);
   }
 }

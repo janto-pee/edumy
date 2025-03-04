@@ -1,26 +1,41 @@
 import { Injectable } from '@nestjs/common';
 import { CreateContentitemInput } from './dto/create-contentitem.input';
 import { UpdateContentitemInput } from './dto/update-contentitem.input';
+import { InjectModel } from '@nestjs/mongoose';
+import { Contentitem } from './entities/contentitem.entity';
+import { Model } from 'mongoose';
 
 @Injectable()
 export class ContentitemService {
-  create(createContentitemInput: CreateContentitemInput) {
-    return 'This action adds a new contentitem';
+  constructor(
+    @InjectModel(Contentitem.name) private contentItemModel: Model<Contentitem>,
+  ) {}
+
+  async create(
+    createContentItemDto: CreateContentitemInput,
+  ): Promise<Contentitem> {
+    const createdContent =
+      await this.contentItemModel.create(createContentItemDto);
+    return createdContent;
   }
 
-  findAll() {
-    return `This action returns all contentitem`;
+  async findAll(): Promise<Contentitem[]> {
+    return this.contentItemModel.find().exec();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} contentitem`;
+  async findOne(id: string) {
+    return await this.contentItemModel.findById(id);
   }
 
-  update(id: number, updateContentitemInput: UpdateContentitemInput) {
-    return `This action updates a #${id} contentitem`;
+  async update(id: string, updateContentInput: UpdateContentitemInput) {
+    return await this.contentItemModel.findByIdAndUpdate(
+      id,
+      updateContentInput,
+      { new: true },
+    );
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} contentitem`;
+  async remove(id: string) {
+    return await this.contentItemModel.findByIdAndDelete(id);
   }
 }

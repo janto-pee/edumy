@@ -1,7 +1,19 @@
-import { InputType, Int, Field } from '@nestjs/graphql';
+import { InputType, Field } from '@nestjs/graphql';
 
 @InputType()
 export class CreateProgrammembershipInput {
-  @Field(() => Int, { description: 'Example field (placeholder)' })
-  exampleField: number;
+  @Field()
+  joinedAt: string;
+
+  @Field()
+  programId: string;
+
+  @Field()
+  externalId: string;
+
+  @Field()
+  fullName: string;
+
+  @Field()
+  email: string;
 }

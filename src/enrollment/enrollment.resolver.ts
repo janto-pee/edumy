@@ -9,27 +9,34 @@ export class EnrollmentResolver {
   constructor(private readonly enrollmentService: EnrollmentService) {}
 
   @Mutation(() => Enrollment)
-  createEnrollment(@Args('createEnrollmentInput') createEnrollmentInput: CreateEnrollmentInput) {
-    return this.enrollmentService.create(createEnrollmentInput);
+  async createEnrollment(
+    @Args('createEnrollmentInput') createEnrollmentInput: CreateEnrollmentInput,
+  ) {
+    return await this.enrollmentService.create(createEnrollmentInput);
   }
 
   @Query(() => [Enrollment], { name: 'enrollment' })
-  findAll() {
-    return this.enrollmentService.findAll();
+  async findAll() {
+    return await this.enrollmentService.findAll();
   }
 
   @Query(() => Enrollment, { name: 'enrollment' })
-  findOne(@Args('id', { type: () => Int }) id: number) {
-    return this.enrollmentService.findOne(id);
+  async findOne(@Args('id', { type: () => String }) id: string) {
+    return await this.enrollmentService.findOne(id);
   }
 
   @Mutation(() => Enrollment)
-  updateEnrollment(@Args('updateEnrollmentInput') updateEnrollmentInput: UpdateEnrollmentInput) {
-    return this.enrollmentService.update(updateEnrollmentInput.id, updateEnrollmentInput);
+  async updateEnrollment(
+    @Args('updateEnrollmentInput') updateEnrollmentInput: UpdateEnrollmentInput,
+  ) {
+    return await this.enrollmentService.update(
+      updateEnrollmentInput.id,
+      updateEnrollmentInput,
+    );
   }
 
   @Mutation(() => Enrollment)
-  removeEnrollment(@Args('id', { type: () => Int }) id: number) {
-    return this.enrollmentService.remove(id);
+  async removeEnrollment(@Args('id', { type: () => String }) id: string) {
+    return await this.enrollmentService.remove(id);
   }
 }

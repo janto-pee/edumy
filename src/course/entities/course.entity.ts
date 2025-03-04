@@ -1,14 +1,11 @@
 import { ObjectType, Field, ID } from '@nestjs/graphql';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { HydratedDocument, Schema as MongooseSchema } from 'mongoose';
 
-export type CourseDocument = HydratedDocument<Course>;
-
-@ObjectType()
 @Schema()
+@ObjectType()
 export class Course {
   @Field(() => ID)
-  _id: MongooseSchema.Types.ObjectId;
+  _id: string;
 
   @Prop()
   @Field({ nullable: false })

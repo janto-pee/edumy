@@ -9,7 +9,9 @@ export class ProgramResolver {
   constructor(private readonly programService: ProgramService) {}
 
   @Mutation(() => Program)
-  createProgram(@Args('createProgramInput') createProgramInput: CreateProgramInput) {
+  createProgram(
+    @Args('createProgramInput') createProgramInput: CreateProgramInput,
+  ) {
     return this.programService.create(createProgramInput);
   }
 
@@ -19,17 +21,22 @@ export class ProgramResolver {
   }
 
   @Query(() => Program, { name: 'program' })
-  findOne(@Args('id', { type: () => Int }) id: number) {
+  findOne(@Args('id', { type: () => String }) id: string) {
     return this.programService.findOne(id);
   }
 
   @Mutation(() => Program)
-  updateProgram(@Args('updateProgramInput') updateProgramInput: UpdateProgramInput) {
-    return this.programService.update(updateProgramInput.id, updateProgramInput);
+  updateProgram(
+    @Args('updateProgramInput') updateProgramInput: UpdateProgramInput,
+  ) {
+    return this.programService.update(
+      updateProgramInput.id,
+      updateProgramInput,
+    );
   }
 
   @Mutation(() => Program)
-  removeProgram(@Args('id', { type: () => Int }) id: number) {
+  removeProgram(@Args('id', { type: () => String }) id: string) {
     return this.programService.remove(id);
   }
 }

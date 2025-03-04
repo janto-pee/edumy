@@ -1,13 +1,12 @@
 import { ObjectType, Field, ID } from '@nestjs/graphql';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import mongoose, { Schema as MongooseSchema } from 'mongoose';
-// import { Student } from 'src/student/entities/student.entity';
+import { HydratedDocument, Schema as MongooseSchema } from 'mongoose';
 
-@ObjectType()
 @Schema()
+@ObjectType()
 export class ProgramMembership {
   @Field(() => ID)
-  _id: MongooseSchema.Types.ObjectId;
+  _id: string;
 
   // @Prop({
   //   type: { type: mongoose.Schema.Types.ObjectId, ref: 'Course' },
@@ -16,21 +15,23 @@ export class ProgramMembership {
   // StudenId: Student;
 
   @Prop()
+  @Field()
   joinedAt: string;
 
   @Prop()
-  id: string;
-
-  @Prop()
+  @Field()
   programId: string;
 
   @Prop()
+  @Field()
   externalId: string;
 
   @Prop()
+  @Field()
   fullName: string;
 
   @Prop()
+  @Field()
   email: string;
 }
 export const ProgramMembershipSchema =

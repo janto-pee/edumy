@@ -14,22 +14,24 @@ import { ContentitemModule } from './contentitem/contentitem.module';
 import { ProgrammembershipModule } from './programmembership/programmembership.module';
 import { EnrollmentModule } from './enrollment/enrollment.module';
 import { SkillModule } from './skill/skill.module';
+import { AuthorModule } from './author/author.module';
 
 @Module({
   imports: [
-    MongooseModule.forRoot(process.env.DATABASE_URL2),
+    MongooseModule.forRoot('mongodb://localhost:27017/edumy'),
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
       autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
       sortSchema: true,
     }),
+    AuthorModule,
     AddressModule,
-    ProgramModule,
     CourseModule,
     CoursemetadataModule,
     ContentModule,
     ContentitemModule,
     ProgrammembershipModule,
+    ProgramModule,
     EnrollmentModule,
     SkillModule,
   ],
