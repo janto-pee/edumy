@@ -1,0 +1,245 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type Address {
+  _id: ID!
+  city: String!
+  country: String!
+  country_code: String!
+  postal_code: String!
+  state_province_code: String!
+  state_province_name: String!
+  street: String!
+  street2: String!
+}
+
+type Content {
+  _id: ID!
+  content: String!
+  courseId: [Course!]!
+  createdAt: DateTime!
+  duration: String!
+  text: String!
+  title: String!
+}
+
+type Contentitem {
+  _id: ID!
+  content: [Content!]!
+  contentDuration: String!
+  contentType: String!
+  reference: String!
+  title: String!
+}
+
+type Course {
+  _id: ID!
+  clipMetaData: String!
+  contentId: String!
+  contentType: String!
+  courseMetaData: String!
+  description: String!
+  difficultyLevel: String!
+  extraMetaData: String!
+  instructors: String!
+  languageCode: String!
+  name: String!
+  partner: String!
+  partners: String!
+  program: String!
+  slug: String!
+  specializationMetaData: String!
+  subtitleCodes: String!
+}
+
+type Coursemetada {
+  _id: ID!
+  contentType: String!
+  courseId: [Course!]!
+  title: String!
+}
+
+input CreateAddressInput {
+  city: String!
+  country: String!
+  country_code: String!
+  email: String!
+  postal_code: String!
+  state_province_code: String!
+  state_province_name: String!
+  street: String!
+  street2: String!
+}
+
+input CreateContentInput {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
+input CreateContentitemInput {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
+input CreateCourseInput {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
+input CreateCoursemetadatumInput {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
+input CreateEnrollmentInput {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
+input CreateProgramInput {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
+input CreateProgrammembershipInput {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
+input CreateSkillInput {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+type Enrollment {
+  _id: ID!
+  contentType: String!
+  courseId: [Course!]!
+  title: String!
+}
+
+type Mutation {
+  createAddress(createAddressInput: CreateAddressInput!): Address!
+  createContent(createContentInput: CreateContentInput!): Content!
+  createContentitem(createContentitemInput: CreateContentitemInput!): Contentitem!
+  createCourse(createCourseInput: CreateCourseInput!): Course!
+  createCoursemetadatum(createCoursemetadatumInput: CreateCoursemetadatumInput!): Coursemetada!
+  createEnrollment(createEnrollmentInput: CreateEnrollmentInput!): Enrollment!
+  createProgram(createProgramInput: CreateProgramInput!): Program!
+  createProgramMembership(createProgramMembershipInput: CreateProgrammembershipInput!): ProgramMembership!
+  createSkill(createSkillInput: CreateSkillInput!): Skill!
+  removeAddress(id: Int!): Address!
+  removeContent(id: Int!): Content!
+  removeContentitem(id: Int!): Contentitem!
+  removeCourse(id: Int!): Course!
+  removeCoursemetadatum(id: Int!): Coursemetada!
+  removeEnrollment(id: Int!): Enrollment!
+  removeProgram(id: Int!): Program!
+  removeProgrammembership(id: Int!): ProgramMembership!
+  removeSkill(id: Int!): Skill!
+  updateAddress(updateAddressInput: UpdateAddressInput!): Address!
+  updateContent(updateContentInput: UpdateContentInput!): Content!
+  updateContentitem(updateContentitemInput: UpdateContentitemInput!): Contentitem!
+  updateCourse(updateCourseInput: UpdateCourseInput!): Course!
+  updateCoursemetadatum(updateCoursemetadatumInput: UpdateCoursemetadatumInput!): Coursemetada!
+  updateEnrollment(updateEnrollmentInput: UpdateEnrollmentInput!): Enrollment!
+  updateProgram(updateProgramInput: UpdateProgramInput!): Program!
+  updateProgramMembership(updateProgramMembershipInput: UpdateProgrammembershipInput!): ProgramMembership!
+  updateSkill(updateSkillInput: UpdateSkillInput!): Skill!
+}
+
+type Program {
+  _id: ID!
+  courseId: [Course!]!
+}
+
+type ProgramMembership {
+  _id: ID!
+}
+
+type Query {
+  address(id: Int!): Address!
+  content(id: Int!): Content!
+  contentitem(id: Int!): Contentitem!
+  course(id: Int!): Course!
+  coursemetadata: [Coursemetada!]!
+  coursemetadatum(id: Int!): Coursemetada!
+  enrollment(id: Int!): Enrollment!
+  program(id: Int!): Program!
+  programMembership(id: Int!): ProgramMembership!
+  skill(id: Int!): Skill!
+}
+
+type Skill {
+  """id of session"""
+  _id: ID!
+  skillId: String!
+  skillName: String!
+}
+
+input UpdateAddressInput {
+  _id: String!
+  city: String
+  country: String
+  country_code: String
+  email: String
+  postal_code: String
+  state_province_code: String
+  state_province_name: String
+  street: String
+  street2: String
+}
+
+input UpdateContentInput {
+  """Example field (placeholder)"""
+  exampleField: Int
+  id: Int!
+}
+
+input UpdateContentitemInput {
+  """Example field (placeholder)"""
+  exampleField: Int
+  id: Int!
+}
+
+input UpdateCourseInput {
+  """Example field (placeholder)"""
+  exampleField: Int
+  id: Int!
+}
+
+input UpdateCoursemetadatumInput {
+  """Example field (placeholder)"""
+  exampleField: Int
+  id: Int!
+}
+
+input UpdateEnrollmentInput {
+  """Example field (placeholder)"""
+  exampleField: Int
+  id: Int!
+}
+
+input UpdateProgramInput {
+  """Example field (placeholder)"""
+  exampleField: Int
+  id: Int!
+}
+
+input UpdateProgrammembershipInput {
+  """Example field (placeholder)"""
+  exampleField: Int
+  id: Int!
+}
+
+input UpdateSkillInput {
+  """Example field (placeholder)"""
+  exampleField: Int
+  id: Int!
+}

@@ -1,0 +1,25 @@
+-- Programs
+-- GET - Search Location
+-- GET - Get Hotels Filter
+-- GET - Search Hotels
+-- GET - Search Hotels By Location
+-- GET - Get Hotel Details
+-- Courses
+-- GET - Search Restaurant Location
+-- GET - Search Restaurants
+-- GET - Get Restaurant Details V2
+-- GET - Get Restaurant Details (Deprecated)
+-- Skills
+-- GET - Search Vacation Rental Location
+-- GET - Rental Search
+-- GET - Rental Details
+-- GET - Rental Availability
+-- GET - Rental Rates
+-- GET - Rental Reviews
+-- Universities
+-- GET - Search Vacation Rental Location
+-- GET - Rental Search
+-- GET - Rental Details
+-- GET - Rental Availability
+-- GET - Rental Rates
+-- GET - Rental Reviews
