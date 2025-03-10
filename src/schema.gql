@@ -133,17 +133,14 @@ input CreateEnrollmentInput {
 input CreateProgramInput {
   contentId: String!
   contentType: String!
+  course: String!
   name: String!
   tagline: String!
   url: String!
 }
 
 input CreateProgrammembershipInput {
-  email: String!
-  externalId: String!
-  fullName: String!
-  joinedAt: String!
-  programId: String!
+  program: String!
 }
 
 input CreateSkillInput {
@@ -199,6 +196,7 @@ type Program {
   _id: ID!
   contentId: String!
   contentType: String!
+  course: [Course!]!
   name: String!
   tagline: String!
   url: String!
@@ -206,11 +204,7 @@ type Program {
 
 type ProgramMembership {
   _id: ID!
-  email: String!
-  externalId: String!
-  fullName: String!
-  joinedAt: String!
-  programId: String!
+  program: Program!
 }
 
 type Query {
@@ -307,6 +301,7 @@ input UpdateEnrollmentInput {
 input UpdateProgramInput {
   contentId: String
   contentType: String
+  course: String
   id: ID!
   name: String
   tagline: String
@@ -314,12 +309,8 @@ input UpdateProgramInput {
 }
 
 input UpdateProgrammembershipInput {
-  email: String
-  externalId: String
-  fullName: String
   id: ID!
-  joinedAt: String
-  programId: String
+  program: String
 }
 
 input UpdateSkillInput {

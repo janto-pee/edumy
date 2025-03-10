@@ -3,7 +3,6 @@ import { AddressService } from './address.service';
 import { Address } from './entities/address.entity';
 import { CreateAddressInput } from './dto/create-address.input';
 import { UpdateAddressInput } from './dto/update-address.input';
-import { Schema as MongooseSchema } from 'mongoose';
 
 @Resolver(() => Address)
 export class AddressResolver {

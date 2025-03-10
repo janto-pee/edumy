@@ -6,14 +6,21 @@ import {
   ProgramMembershipSchema,
 } from './entities/programmembership.entity';
 import { MongooseModule } from '@nestjs/mongoose';
+import { Program, ProgramSchema } from 'src/program/entities/program.entity';
+import { ProgramService } from 'src/program/program.service';
 
 @Module({
   imports: [
     MongooseModule.forFeature([
       { name: ProgramMembership.name, schema: ProgramMembershipSchema },
+      { name: Program.name, schema: ProgramSchema },
     ]),
   ],
 
-  providers: [ProgramMembershipResolver, ProgrammembershipService],
+  providers: [
+    ProgramMembershipResolver,
+    ProgrammembershipService,
+    ProgramService,
+  ],
 })
 export class ProgrammembershipModule {}

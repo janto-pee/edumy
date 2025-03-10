@@ -1,42 +1,60 @@
-import { Resolver, Query, Mutation, Args, Int } from '@nestjs/graphql';
+import {
+  Resolver,
+  Query,
+  Mutation,
+  Args,
+  ResolveField,
+  Parent,
+} from '@nestjs/graphql';
 import { ProgramService } from './program.service';
 import { Program } from './entities/program.entity';
 import { CreateProgramInput } from './dto/create-program.input';
 import { UpdateProgramInput } from './dto/update-program.input';
+import { Course } from 'src/course/entities/course.entity';
+import { CourseService } from 'src/course/course.service';
 
 @Resolver(() => Program)
 export class ProgramResolver {
-  constructor(private readonly programService: ProgramService) {}
+  constructor(
+    private readonly programService: ProgramService,
+    private readonly courseService: CourseService,
+  ) {}
 
   @Mutation(() => Program)
-  createProgram(
+  async createProgram(
     @Args('createProgramInput') createProgramInput: CreateProgramInput,
   ) {
-    return this.programService.create(createProgramInput);
+    return await this.programService.create(createProgramInput);
   }
 
   @Query(() => [Program], { name: 'program' })
-  findAll() {
-    return this.programService.findAll();
+  async findAll() {
+    return await this.programService.findAll();
   }
 
   @Query(() => Program, { name: 'program' })
-  findOne(@Args('id', { type: () => String }) id: string) {
-    return this.programService.findOne(id);
+  async findOne(@Args('id', { type: () => String }) id: string) {
+    return await this.programService.findOne(id);
   }
 
   @Mutation(() => Program)
-  updateProgram(
+  async updateProgram(
     @Args('updateProgramInput') updateProgramInput: UpdateProgramInput,
   ) {
-    return this.programService.update(
+    return await this.programService.update(
       updateProgramInput.id,
       updateProgramInput,
     );
   }
 
   @Mutation(() => Program)
-  removeProgram(@Args('id', { type: () => String }) id: string) {
-    return this.programService.remove(id);
+  async removeProgram(@Args('id', { type: () => String }) id: string) {
+    return await this.programService.remove(id);
   }
+
+  // @ResolveField(() => Course)
+  // async program(@Parent() program: Program) {
+  //   console.log('parent resolver program', program.course._id);
+  //   return await this.courseService.findOne(program.course._id);
+  // }
 }

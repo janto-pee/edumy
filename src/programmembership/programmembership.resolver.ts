@@ -1,13 +1,24 @@
-import { Resolver, Query, Mutation, Args, Int } from '@nestjs/graphql';
+import {
+  Resolver,
+  Query,
+  Mutation,
+  Args,
+  Int,
+  ResolveField,
+  Parent,
+} from '@nestjs/graphql';
 import { ProgrammembershipService } from './programmembership.service';
 import { ProgramMembership } from './entities/programmembership.entity';
 import { CreateProgrammembershipInput } from './dto/create-programmembership.input';
 import { UpdateProgrammembershipInput } from './dto/update-programmembership.input';
+import { Program } from 'src/program/entities/program.entity';
+import { ProgramService } from 'src/program/program.service';
 
 @Resolver(() => ProgramMembership)
 export class ProgramMembershipResolver {
   constructor(
     private readonly programMembershipService: ProgrammembershipService,
+    private readonly programService: ProgramService,
   ) {}
 
   @Mutation(() => ProgramMembership)
@@ -42,5 +53,10 @@ export class ProgramMembershipResolver {
   @Mutation(() => ProgramMembership)
   removeProgrammembership(@Args('id', { type: () => String }) id: string) {
     return this.programMembershipService.remove(id);
+  }
+
+  @ResolveField(() => Program)
+  async program(@Parent() programMembership: ProgramMembership) {
+    return this.programService.findOne(programMembership.program._id);
   }
 }
