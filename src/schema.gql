@@ -209,6 +209,7 @@ type ProgramMembership {
 
 type Query {
   address(id: String!): Address!
+  addresses: [Address!]!
   author(id: String!): Author!
   content(id: String!): Content!
   contentitem(id: String!): Contentitem!

@@ -14,7 +14,7 @@ export class AddressService {
 
   async create(createAddressDto: CreateAddressInput): Promise<Address> {
     const createdAddress = new this.addressModel(createAddressDto);
-    return createdAddress.save();
+    return await createdAddress.save();
   }
 
   async findAll(): Promise<Address[]> {
