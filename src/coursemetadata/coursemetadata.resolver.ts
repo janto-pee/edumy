@@ -9,36 +9,36 @@ export class CoursemetadataResolver {
   constructor(private readonly coursemetadataService: CoursemetadataService) {}
 
   @Mutation(() => Coursemetada)
-  createCoursemetadatum(
+  async createCoursemetadatum(
     @Args('createCoursemetadatumInput')
     createCoursemetadatumInput: CreateCoursemetadatumInput,
   ) {
-    return this.coursemetadataService.create(createCoursemetadatumInput);
+    return await this.coursemetadataService.create(createCoursemetadatumInput);
   }
 
-  @Query(() => [Coursemetada], { name: 'coursemetadata' })
-  findAll() {
-    return this.coursemetadataService.findAll();
+  @Query(() => [Coursemetada], { name: 'coursemetadatas' })
+  async findAll() {
+    return await this.coursemetadataService.findAll();
   }
 
   @Query(() => Coursemetada, { name: 'coursemetadatum' })
-  findOne(@Args('id', { type: () => String }) id: string) {
-    return this.coursemetadataService.findOne(id);
+  async findOne(@Args('id', { type: () => String }) id: string) {
+    return await this.coursemetadataService.findOne(id);
   }
 
   @Mutation(() => Coursemetada)
-  updateCoursemetadatum(
+  async updateCoursemetadatum(
     @Args('updateCoursemetadatumInput')
     updateCoursemetadatumInput: UpdateCoursemetadatumInput,
   ) {
-    return this.coursemetadataService.update(
+    return await this.coursemetadataService.update(
       updateCoursemetadatumInput.id,
       updateCoursemetadatumInput,
     );
   }
 
   @Mutation(() => Coursemetada)
-  removeCoursemetadatum(@Args('id', { type: () => String }) id: string) {
-    return this.coursemetadataService.remove(id);
+  async removeCoursemetadatum(@Args('id', { type: () => String }) id: string) {
+    return await this.coursemetadataService.remove(id);
   }
 }

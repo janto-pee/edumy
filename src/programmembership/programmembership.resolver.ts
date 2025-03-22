@@ -22,41 +22,45 @@ export class ProgramMembershipResolver {
   ) {}
 
   @Mutation(() => ProgramMembership)
-  createProgramMembership(
+  async createProgramMembership(
     @Args('createProgramMembershipInput')
     createProgramMembershipInput: CreateProgrammembershipInput,
   ) {
-    return this.programMembershipService.create(createProgramMembershipInput);
+    return await this.programMembershipService.create(
+      createProgramMembershipInput,
+    );
   }
 
-  @Query(() => [ProgramMembership], { name: 'programMembership' })
-  findAll() {
-    return this.programMembershipService.findAll();
+  @Query(() => [ProgramMembership], { name: 'programMemberships' })
+  async findAll() {
+    return await this.programMembershipService.findAll();
   }
 
   @Query(() => ProgramMembership, { name: 'programMembership' })
-  findOne(@Args('id', { type: () => String }) id: string) {
-    return this.programMembershipService.findOne(id);
+  async findOne(@Args('id', { type: () => String }) id: string) {
+    return await this.programMembershipService.findOne(id);
   }
 
   @Mutation(() => ProgramMembership)
-  updateProgramMembership(
+  async updateProgramMembership(
     @Args('updateProgramMembershipInput')
     updateProgramMembershipInput: UpdateProgrammembershipInput,
   ) {
-    return this.programMembershipService.update(
+    return await this.programMembershipService.update(
       updateProgramMembershipInput.id,
       updateProgramMembershipInput,
     );
   }
 
   @Mutation(() => ProgramMembership)
-  removeProgrammembership(@Args('id', { type: () => String }) id: string) {
-    return this.programMembershipService.remove(id);
+  async removeProgrammembership(
+    @Args('id', { type: () => String }) id: string,
+  ) {
+    return await this.programMembershipService.remove(id);
   }
 
-  @ResolveField(() => Program)
-  async program(@Parent() programMembership: ProgramMembership) {
-    return this.programService.findOne(programMembership.program._id);
-  }
+  // @ResolveField(() => Program)
+  // async program(@Parent() programMembership: ProgramMembership) {
+  //   return await this.programService.findOne(programMembership.program._id);
+  // }
 }

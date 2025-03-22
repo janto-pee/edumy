@@ -20,13 +20,15 @@ export class ContentitemService {
   }
 
   async findAll(): Promise<Contentitem[]> {
-    return this.contentItemModel.find().exec();
+    return await this.contentItemModel.find().exec();
   }
 
   async findOne(id: string) {
     return await this.contentItemModel.findById(id);
   }
-
+  async findBy(search: any) {
+    return await this.contentItemModel.findOne(search);
+  }
   async update(id: string, updateContentInput: UpdateContentitemInput) {
     return await this.contentItemModel.findByIdAndUpdate(
       id,

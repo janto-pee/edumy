@@ -11,12 +11,9 @@ export class CreateProgramInput {
   @Field()
   url: string;
 
-  @Field()
-  course: string;
+  // @Field()
+  // contentId: string;
 
-  @Field()
-  contentId: string;
-
-  @Field()
-  contentType: string;
+  // @Field()
+  // contentType: string;
 }

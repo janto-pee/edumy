@@ -22,7 +22,7 @@ export class ProgrammembershipService {
   }
 
   async findAll(): Promise<ProgramMembership[]> {
-    return this.programmembershipModel.find().exec();
+    return await this.programmembershipModel.find().exec();
   }
 
   async findOne(id: string) {

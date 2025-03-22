@@ -19,4 +19,7 @@ export class CreateCoursemetadatumInput {
 
   @Field()
   domainTypes: string;
+
+  @Field()
+  courseId: string;
 }

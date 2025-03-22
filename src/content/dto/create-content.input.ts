@@ -13,4 +13,10 @@ export class CreateContentInput {
 
   @Field()
   duration: string;
+
+  @Field()
+  contentItemId: string;
+
+  @Field()
+  courseId: string;
 }

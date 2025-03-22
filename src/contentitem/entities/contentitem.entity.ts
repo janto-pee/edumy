@@ -1,6 +1,7 @@
 import { ObjectType, Field, ID } from '@nestjs/graphql';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import mongoose, { HydratedDocument, Schema as MongooseSchema } from 'mongoose';
+import { Content } from 'src/content/entities/content.entity';
 // import { Content } from 'src/content/entities/content.entity';
 
 @Schema()
@@ -8,12 +9,6 @@ import mongoose, { HydratedDocument, Schema as MongooseSchema } from 'mongoose';
 export class Contentitem {
   @Field(() => ID)
   _id: string;
-
-  // @Prop({
-  //   type: { type: mongoose.Schema.Types.ObjectId, ref: 'Content' },
-  // })
-  // @Field(() => [Content])
-  // content: Content;
 
   @Prop()
   @Field({ nullable: false })
@@ -31,8 +26,11 @@ export class Contentitem {
   @Field({ nullable: false })
   contentDuration: string;
 
-  // @Prop()
-  // @Field({ nullable: false })
-  // createdAt: Date;
+  @Prop({ type: { type: mongoose.Schema.Types.ObjectId, ref: 'Content' } })
+  @Field()
+  contentId: string;
+
+  @Field(() => Content)
+  content: Content;
 }
 export const ContentitemSchema = SchemaFactory.createForClass(Contentitem);

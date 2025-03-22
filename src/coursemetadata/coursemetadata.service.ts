@@ -22,7 +22,7 @@ export class CoursemetadataService {
   }
 
   async findAll(): Promise<Coursemetada[]> {
-    return this.courseMetadataModel.find().exec();
+    return await this.courseMetadataModel.find().exec();
   }
 
   async findOne(id: string) {

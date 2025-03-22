@@ -11,10 +11,8 @@ import { CourseModule } from './course/course.module';
 import { CoursemetadataModule } from './coursemetadata/coursemetadata.module';
 import { ContentModule } from './content/content.module';
 import { ContentitemModule } from './contentitem/contentitem.module';
-import { ProgrammembershipModule } from './programmembership/programmembership.module';
-import { EnrollmentModule } from './enrollment/enrollment.module';
 import { SkillModule } from './skill/skill.module';
-import { AuthorModule } from './author/author.module';
+import { UserModule } from './user/user.module';
 
 @Module({
   imports: [
@@ -24,16 +22,14 @@ import { AuthorModule } from './author/author.module';
       autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
       sortSchema: true,
     }),
-    AuthorModule,
     AddressModule,
     CourseModule,
     CoursemetadataModule,
     ContentModule,
     ContentitemModule,
-    ProgrammembershipModule,
     ProgramModule,
-    EnrollmentModule,
     SkillModule,
+    UserModule,
   ],
   controllers: [AppController],
   providers: [AppService],

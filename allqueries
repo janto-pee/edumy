@@ -1,0 +1,261 @@
+mutation CreateAddress {
+    createAddress(
+        createAddressInput: {
+            city: "city"
+            country: "country"
+            country_code: "country_code"
+            postal_code: "postal_code"
+            state_province_code: "code"
+            state_province_name: "name"
+            street2: "street2"
+            street: "street"
+        }
+    ) {
+        _id
+        country
+        country_code
+        state_province_code
+        postal_code
+        state_province_name
+        street
+        street2
+        city
+    }
+    createAuthor(createAuthorInput: { firstName: "fn", lastName: "ln" }) {
+        _id
+        firstName
+        lastName
+    }
+    createContent(
+        createContentInput: { content: "content", duration: "duration", text: "text", title: "title" }
+    ) {
+        _id
+        content
+        createdAt
+        duration
+        text
+        title
+    }
+    createContentitem(
+        createContentitemInput: {
+            contentDuration: "contentDuration"
+            contentType: "contentType"
+            reference: "reference"
+            title: "title"
+        }
+    ) {
+        _id
+        contentDuration
+        contentType
+        reference
+        title
+    }
+    createCourse(
+        createCourseInput: {
+            clipMetaData: "clipMetaData"
+            contentId: "contentId"
+            contentType: "contentType"
+            courseMetaData: "courseMetaData"
+            description: "description"
+            difficultyLevel: "difficultyLevel"
+            extraMetaData: "extraMetaData"
+            instructors: "instructors"
+            languageCode: "languageCode"
+            name: "name"
+            partner: "partner"
+            partners: "partners"
+            program: "program"
+            slug: "slug"
+            specializationMetaData: "specializationMetaData"
+            subtitleCodes: "subtitle"
+        }
+    ) {
+        _id
+        clipMetaData
+        contentId
+        contentType
+        courseMetaData
+        description
+        difficultyLevel
+        extraMetaData
+        instructors
+        languageCode
+        name
+        partner
+        partners
+        program
+        slug
+        specializationMetaData
+        subtitleCodes
+    }
+    createCoursemetadatum(
+        createCoursemetadatumInput: {
+            contentType: " contentType"
+            domainTypes: "domainTypes"
+            estimatedLearningTime: "estimatedLearningTime"
+            promoPhoto: "promoPhoto"
+            skills: "skills"
+            title: "title"
+        }
+    ) {
+        _id
+        contentType
+        domainTypes
+        estimatedLearningTime
+        promoPhoto
+        skills
+        title
+    }
+    createEnrollment(
+        createEnrollmentInput: { contentType: "contentType", title: "title" }
+    ) {
+        _id
+        contentType
+        title
+    }
+    createProgram(
+        createProgramInput: {
+            contentId: "contentId"
+            contentType: "contentType"
+            name: "name"
+            tagline: "tagline"
+            url: "url"
+            course: "course"
+        }
+    ) {
+        _id
+        contentId
+        contentType
+        name
+        tagline
+        url
+        course {
+            _id
+            clipMetaData
+            contentId
+            contentType
+            courseMetaData
+            description
+            difficultyLevel
+            extraMetaData
+            instructors
+            languageCode
+            name
+            partner
+            partners
+            program
+            slug
+            specializationMetaData
+            subtitleCodes
+        }
+    }
+    createProgramMembership(createProgramMembershipInput: null) {
+        _id
+    }
+    createSkill(
+        createSkillInput: { skillName: "skillName", skillId: "absbbb" }
+    ) {
+        _id
+        skillId
+        skillName
+    }
+}
+
+
+mutation CreateAddress2 {
+    createAddress(
+        createAddressInput: {
+            city: "city"
+            country: "country"
+            country_code: "ccd"
+            postal_code: "pc"
+            state_province_code: "spc"
+            state_province_name: "spn"
+            street: "street"
+            street2: "street2"
+            userId: ""
+        }
+    ) {
+        _id
+        city
+        country
+        country_code
+        postal_code
+        state_province_code
+        state_province_name
+        street
+        street2
+    }
+    createContent(
+        createContentInput: {
+            content: null
+            contentItemId: null
+            duration: null
+            text: null
+            title: null
+            courseId: null
+        }
+    ) {
+        _id
+        content
+        contentItemId
+        createdAt
+        duration
+        text
+        title
+    }
+    createUser(
+        createUserInput: {
+            email: "email3"
+            first_name: "fn"
+            last_name: "ln"
+            password: "pswd"
+            username: "user3"
+        }
+    ) {
+        _id
+        createdAt
+        email
+        first_name
+        last_name
+        password
+        username
+    }
+    createSkill(createSkillInput: { skillId: 1.0, skillName: "design" }) {
+        _id
+        courseId
+        skillId
+        skillName
+    }
+    createProgram(
+        createProgramInput: {
+            name: "UI/UX design"
+            tagline: "design and development course"
+            url: "http://ui-ux-design"
+        }
+    ) {
+        _id
+        courseId
+        name
+        tagline
+        url
+    }
+    createCoursemetadatum(
+        createCoursemetadatumInput: {
+            contentType: "video"
+            domainTypes: "video content"
+            estimatedLearningTime: "1hr"
+            promoPhoto: "http://xyz"
+            skills: "design"
+            title: "fundamentals of uiux"
+        }
+    ) {
+        _id
+        contentType
+        domainTypes
+        estimatedLearningTime
+        promoPhoto
+        skills
+        title
+    }
+}

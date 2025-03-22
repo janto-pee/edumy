@@ -19,6 +19,9 @@ export class Coursemetada {
   @Field({ nullable: false })
   title: string;
 
+  @Field()
+  contentId: string;
+
   @Prop()
   @Field({ nullable: false })
   contentType: string;

@@ -1,42 +1,65 @@
-import { Resolver, Query, Mutation, Args, Int } from '@nestjs/graphql';
+import {
+  Resolver,
+  Query,
+  Mutation,
+  Args,
+  Int,
+  ResolveField,
+  Parent,
+} from '@nestjs/graphql';
 import { ContentService } from './content.service';
 import { Content } from './entities/content.entity';
 import { CreateContentInput } from './dto/create-content.input';
 import { UpdateContentInput } from './dto/update-content.input';
+import { Contentitem } from 'src/contentitem/entities/contentitem.entity';
+import { ContentitemService } from 'src/contentitem/contentitem.service';
 
 @Resolver(() => Content)
 export class ContentResolver {
-  constructor(private readonly contentService: ContentService) {}
+  constructor(
+    private readonly contentService: ContentService,
+    private readonly contentItemService: ContentitemService,
+  ) {}
 
   @Mutation(() => Content)
-  createContent(
+  async createContent(
     @Args('createContentInput') createContentInput: CreateContentInput,
   ) {
-    return this.contentService.create(createContentInput);
+    return await this.contentService.create(createContentInput);
   }
 
-  @Query(() => [Content], { name: 'content' })
-  findAll() {
-    return this.contentService.findAll();
+  @Query(() => [Content], { name: 'contents' })
+  async findAll() {
+    return await this.contentService.findAll();
   }
 
   @Query(() => Content, { name: 'content' })
-  findOne(@Args('id', { type: () => String }) id: string) {
-    return this.contentService.findOne(id);
+  async findOne(@Args('id', { type: () => String }) id: string) {
+    return await this.contentService.findOne(id);
   }
 
   @Mutation(() => Content)
-  updateContent(
+  async updateContent(
     @Args('updateContentInput') updateContentInput: UpdateContentInput,
   ) {
-    return this.contentService.update(
+    return await this.contentService.update(
       updateContentInput.id,
       updateContentInput,
     );
   }
 
   @Mutation(() => Content)
-  removeContent(@Args('id', { type: () => String }) id: string) {
-    return this.contentService.remove(id);
+  async removeContent(@Args('id', { type: () => String }) id: string) {
+    return await this.contentService.remove(id);
+  }
+
+  /**
+   * RESOLVER
+   */
+  @ResolveField()
+  async contentitem(@Parent() content: Content) {
+    const { contentItemId } = content;
+    const contentItem = await this.contentItemService.findOne(contentItemId);
+    return contentItem;
   }
 }

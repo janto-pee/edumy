@@ -17,7 +17,7 @@ export class ContentService {
   }
 
   async findAll(): Promise<Content[]> {
-    return this.contentModel.find().exec();
+    return await this.contentModel.find().exec();
   }
 
   async findOne(id: string) {

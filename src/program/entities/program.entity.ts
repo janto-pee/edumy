@@ -9,11 +9,11 @@ export class Program {
   @Field(() => ID)
   _id: string;
 
-  @Prop({
-    type: { type: mongoose.Schema.Types.ObjectId, ref: Course.name },
-  })
-  @Field(() => [Course])
-  course: Course;
+  // @Prop({
+  //   type: { type: mongoose.Schema.Types.ObjectId, ref: 'Course' },
+  // })
+  // @Field(() => [Course])
+  // course: Course[];
 
   @Prop()
   @Field()
@@ -27,12 +27,11 @@ export class Program {
   @Field()
   url: string;
 
-  @Prop()
-  @Field()
-  contentId: string;
+  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Course' })
+  @Field({ nullable: false })
+  courseId: string;
 
-  @Prop()
-  @Field()
-  contentType: string;
+  @Field(() => [Course])
+  course: Course[];
 }
 export const ProgramSchema = SchemaFactory.createForClass(Program);

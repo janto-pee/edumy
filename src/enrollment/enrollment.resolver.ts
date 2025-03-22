@@ -15,7 +15,7 @@ export class EnrollmentResolver {
     return await this.enrollmentService.create(createEnrollmentInput);
   }
 
-  @Query(() => [Enrollment], { name: 'enrollment' })
+  @Query(() => [Enrollment], { name: 'enrollments' })
   async findAll() {
     return await this.enrollmentService.findAll();
   }

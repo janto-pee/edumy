@@ -24,10 +24,12 @@ export class ProgramResolver {
   async createProgram(
     @Args('createProgramInput') createProgramInput: CreateProgramInput,
   ) {
-    return await this.programService.create(createProgramInput);
+    return await this.programService.create({
+      ...createProgramInput,
+    });
   }
 
-  @Query(() => [Program], { name: 'program' })
+  @Query(() => [Program], { name: 'programs' })
   async findAll() {
     return await this.programService.findAll();
   }
@@ -52,9 +54,10 @@ export class ProgramResolver {
     return await this.programService.remove(id);
   }
 
-  // @ResolveField(() => Course)
-  // async program(@Parent() program: Program) {
-  //   console.log('parent resolver program', program.course._id);
-  //   return await this.courseService.findOne(program.course._id);
-  // }
+  @ResolveField()
+  async course(@Parent() program: Program) {
+    const { courseId } = program;
+    const metadata = await this.courseService.filterBy(courseId);
+    return metadata;
+  }
 }

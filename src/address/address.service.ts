@@ -18,13 +18,16 @@ export class AddressService {
   }
 
   async findAll(): Promise<Address[]> {
-    return this.addressModel.find().exec();
+    return await this.addressModel.find().exec();
   }
 
   async findOne(id: string) {
     return await this.addressModel.findById(id);
   }
 
+  async findBy(search: any) {
+    return await this.addressModel.findOne(search);
+  }
   async update(id: string, updateAddressInput: UpdateAddressInput) {
     return await this.addressModel.findByIdAndUpdate(id, updateAddressInput, {
       new: true,

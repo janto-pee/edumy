@@ -5,7 +5,7 @@ import mongoose, {
   Schema as MongooseSchema,
   now,
 } from 'mongoose';
-import { Course } from 'src/course/entities/course.entity';
+import { Contentitem } from 'src/contentitem/entities/contentitem.entity';
 
 export type ContentDocument = HydratedDocument<Content>;
 
@@ -14,10 +14,6 @@ export type ContentDocument = HydratedDocument<Content>;
 export class Content {
   @Field(() => ID)
   _id: string;
-
-  // @Prop({ type: { type: mongoose.Schema.Types.ObjectId, ref: 'Course' } })
-  // @Field(() => [Course])
-  // courseId: Course;
 
   @Prop()
   @Field({ nullable: false })
@@ -30,7 +26,13 @@ export class Content {
   @Prop()
   @Field({ nullable: false })
   content: string;
-  // content: [{}];
+
+  @Prop({ type: { type: mongoose.Schema.Types.ObjectId, ref: 'Contentitem' } })
+  @Field()
+  contentItemId: string;
+
+  @Field(() => Contentitem)
+  contentitem: Contentitem;
 
   @Prop()
   @Field({ nullable: false })

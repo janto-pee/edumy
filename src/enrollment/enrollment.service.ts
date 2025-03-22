@@ -20,7 +20,7 @@ export class EnrollmentService {
   }
 
   async findAll(): Promise<Enrollment[]> {
-    return this.enrollmentModel.find().exec();
+    return await this.enrollmentModel.find().exec();
   }
 
   async findOne(id: string) {

@@ -6,5 +6,5 @@ export class CreateSkillInput {
   skillName: string;
 
   @Field()
-  skillId: string;
+  skillId: number;
 }
