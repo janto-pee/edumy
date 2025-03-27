@@ -3,7 +3,6 @@ import {
   Query,
   Mutation,
   Args,
-  Int,
   ResolveField,
   Parent,
 } from '@nestjs/graphql';
@@ -51,7 +50,7 @@ export class UserResolver {
   @ResolveField()
   async address(@Parent() user: User) {
     const { _id } = user;
-    const address = this.addressService.findBy({ userId: _id });
+    const address = await this.addressService.findBy({ userId: _id });
     if (!address) {
       throw new Error(
         'user does not have an addres. Please proceed to create an address for this user',

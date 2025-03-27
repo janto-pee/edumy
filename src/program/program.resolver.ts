@@ -10,7 +10,6 @@ import { ProgramService } from './program.service';
 import { Program } from './entities/program.entity';
 import { CreateProgramInput } from './dto/create-program.input';
 import { UpdateProgramInput } from './dto/update-program.input';
-import { Course } from 'src/course/entities/course.entity';
 import { CourseService } from 'src/course/course.service';
 
 @Resolver(() => Program)

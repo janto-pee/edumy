@@ -10,7 +10,6 @@ describe('AddressService', () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         {
-          // Provider for the mongoose model
           provide: getModelToken(Address.name),
           useValue: Address,
         },

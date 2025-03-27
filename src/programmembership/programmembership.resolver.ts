@@ -1,17 +1,8 @@
-import {
-  Resolver,
-  Query,
-  Mutation,
-  Args,
-  Int,
-  ResolveField,
-  Parent,
-} from '@nestjs/graphql';
+import { Resolver, Query, Mutation, Args } from '@nestjs/graphql';
 import { ProgrammembershipService } from './programmembership.service';
 import { ProgramMembership } from './entities/programmembership.entity';
 import { CreateProgrammembershipInput } from './dto/create-programmembership.input';
 import { UpdateProgrammembershipInput } from './dto/update-programmembership.input';
-import { Program } from 'src/program/entities/program.entity';
 import { ProgramService } from 'src/program/program.service';
 
 @Resolver(() => ProgramMembership)

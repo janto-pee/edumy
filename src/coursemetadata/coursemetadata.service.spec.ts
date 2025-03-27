@@ -10,7 +10,6 @@ describe('CoursemetadataService', () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         {
-          // Provider for the mongoose model
           provide: getModelToken(Coursemetada.name),
           useValue: Coursemetada,
         },

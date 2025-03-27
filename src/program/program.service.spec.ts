@@ -1,8 +1,9 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { ProgramService } from './program.service';
-import { getModelToken, MongooseModule } from '@nestjs/mongoose';
-import { Program, ProgramSchema } from './entities/program.entity';
-import { Course, CourseSchema } from 'src/course/entities/course.entity';
+import { getModelToken } from '@nestjs/mongoose';
+import { Program } from './entities/program.entity';
+import { Course } from 'src/course/entities/course.entity';
+import { CourseService } from 'src/course/course.service';
 
 describe('ProgramService', () => {
   let service: ProgramService;
@@ -15,7 +16,13 @@ describe('ProgramService', () => {
           provide: getModelToken(Program.name),
           useValue: Program,
         },
+        {
+          // Provider for the mongoose model
+          provide: getModelToken(Course.name),
+          useValue: Course,
+        },
         ProgramService,
+        CourseService,
       ],
     }).compile();
 

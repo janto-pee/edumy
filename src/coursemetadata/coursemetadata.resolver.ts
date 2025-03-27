@@ -1,4 +1,4 @@
-import { Resolver, Query, Mutation, Args, Int } from '@nestjs/graphql';
+import { Resolver, Query, Mutation, Args } from '@nestjs/graphql';
 import { CoursemetadataService } from './coursemetadata.service';
 import { Coursemetada } from './entities/coursemetadatum.entity';
 import { CreateCoursemetadatumInput } from './dto/create-coursemetadatum.input';

@@ -1,6 +1,5 @@
 import { ObjectType, Field, ID } from '@nestjs/graphql';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import mongoose, { Schema as MongooseSchema } from 'mongoose';
 // import { Course } from 'src/course/entities/course.entity';
 
 @Schema()

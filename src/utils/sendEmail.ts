@@ -1,6 +1,5 @@
 // import nodemailer, { SendMailOptions } from 'nodemailer';
 // import config from 'config';
-// import log from './logger';
 
 // const smtp = config.get<{
 //   user: string;
@@ -15,20 +14,19 @@
 //   auth: { user: smtp.user, pass: smtp.pass },
 // });
 
-// // async function createTestCred() {
-// //   const cred = await nodemailer.createTestAccount();
-// //   console.log("cred.... - ", { cred });
-// // }
+// async function createTestCred() {
+//   const cred = await nodemailer.createTestAccount();
+//   console.log("cred.... - ", { cred });
+// }
+// createTestCred();
 
-// // createTestCred();
 // async function sendEmail(payload: SendMailOptions) {
-//   transporter.sendMail(payload, (err, info) => {
+//   await transporter.sendMail(payload, (err, info) => {
 //     if (err) {
-//       log.error(err, 'Error sending email');
+//       console.log(err, 'Error sending email');
 //       return;
 //     }
-
-//     log.info(`Preview URL: ${nodemailer.getTestMessageUrl(info)}`);
+//     console.log(`Preview URL: ${nodemailer.getTestMessageUrl(info)}`);
 //   });
 // }
 

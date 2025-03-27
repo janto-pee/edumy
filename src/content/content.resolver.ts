@@ -3,7 +3,6 @@ import {
   Query,
   Mutation,
   Args,
-  Int,
   ResolveField,
   Parent,
 } from '@nestjs/graphql';
@@ -11,7 +10,6 @@ import { ContentService } from './content.service';
 import { Content } from './entities/content.entity';
 import { CreateContentInput } from './dto/create-content.input';
 import { UpdateContentInput } from './dto/update-content.input';
-import { Contentitem } from 'src/contentitem/entities/contentitem.entity';
 import { ContentitemService } from 'src/contentitem/contentitem.service';
 
 @Resolver(() => Content)

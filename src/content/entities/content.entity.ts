@@ -1,10 +1,6 @@
 import { ObjectType, Field, ID } from '@nestjs/graphql';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import mongoose, {
-  HydratedDocument,
-  Schema as MongooseSchema,
-  now,
-} from 'mongoose';
+import mongoose, { HydratedDocument, now } from 'mongoose';
 import { Contentitem } from 'src/contentitem/entities/contentitem.entity';
 
 export type ContentDocument = HydratedDocument<Content>;

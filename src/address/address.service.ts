@@ -4,7 +4,6 @@ import { UpdateAddressInput } from './dto/update-address.input';
 import { InjectModel } from '@nestjs/mongoose';
 import { Address } from './entities/address.entity';
 import { Model } from 'mongoose';
-import { Schema as MongooseSchema } from 'mongoose';
 
 @Injectable()
 export class AddressService {

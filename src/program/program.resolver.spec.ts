@@ -1,9 +1,9 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { ProgramResolver } from './program.resolver';
 import { ProgramService } from './program.service';
-import { getModelToken, MongooseModule } from '@nestjs/mongoose';
-import { Program, ProgramSchema } from './entities/program.entity';
-import { Course, CourseSchema } from 'src/course/entities/course.entity';
+import { getModelToken } from '@nestjs/mongoose';
+import { Program } from './entities/program.entity';
+import { Course } from 'src/course/entities/course.entity';
 
 describe('ProgramResolver', () => {
   let resolver: ProgramResolver;
@@ -16,11 +16,11 @@ describe('ProgramResolver', () => {
           provide: getModelToken(Program.name, Course.name),
           useValue: [Program, Course],
         },
-        // {
-        //   // Provider for the mongoose model
-        //   provide: getModelToken(Course.name),
-        //   useValue: Course,
-        // },
+        {
+          // Provider for the mongoose model
+          provide: getModelToken(Course.name),
+          useValue: Course,
+        },
         ProgramResolver,
         ProgramService,
       ],
