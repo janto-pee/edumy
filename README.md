@@ -23,7 +23,7 @@
   [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
 
 🖼️ **Description:**
-![Edumy schema](https://github.com/janto-pee/jijy/blob/main/edumy.png)
+![Edumy schema](https://github.com/janto-pee/edumy/blob/main/edumy.png)
 
 ## Project setup
 
