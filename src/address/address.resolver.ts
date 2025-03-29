@@ -58,7 +58,6 @@ export class AddressResolver {
   async user(@Parent() address: Address) {
     const { userId } = address;
     const user = await this.userService.findOne(userId);
-
     return user;
   }
 }

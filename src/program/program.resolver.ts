@@ -1,11 +1,4 @@
-import {
-  Resolver,
-  Query,
-  Mutation,
-  Args,
-  ResolveField,
-  Parent,
-} from '@nestjs/graphql';
+import { Resolver, Query, Mutation, Args } from '@nestjs/graphql';
 import { ProgramService } from './program.service';
 import { Program } from './entities/program.entity';
 import { CreateProgramInput } from './dto/create-program.input';
@@ -53,10 +46,10 @@ export class ProgramResolver {
     return await this.programService.remove(id);
   }
 
-  @ResolveField()
-  async course(@Parent() program: Program) {
-    const { courseId } = program;
-    const metadata = await this.courseService.filterBy(courseId);
-    return metadata;
-  }
+  // @ResolveField()
+  // async course(@Parent() program: Program) {
+  //   const { courseId } = program;
+  //   const metadata = await this.courseService.filterBy(courseId);
+  //   return metadata;
+  // }
 }

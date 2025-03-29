@@ -4,13 +4,18 @@ import { UpdateUserInput } from './dto/update-user.input';
 import { User } from './entities/user.entity';
 import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
+import { hashPassword } from 'src/utils/hashPassword';
 
 @Injectable()
 export class UserService {
   constructor(@InjectModel(User.name) private userModel: Model<User>) {}
 
   async create(createUserDto: CreateUserInput): Promise<User> {
-    const createdUser = await this.userModel.create(createUserDto);
+    const newPassword = await hashPassword(createUserDto.password);
+    const createdUser = await this.userModel.create({
+      ...createUserDto,
+      password: newPassword,
+    });
     return createdUser;
   }
 

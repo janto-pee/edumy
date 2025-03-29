@@ -1,6 +1,6 @@
 import { ObjectType, Field, ID } from '@nestjs/graphql';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import mongoose from 'mongoose';
+// import mongoose from 'mongoose';
 import { Course } from 'src/course/entities/course.entity';
 
 @Schema()
@@ -27,9 +27,9 @@ export class Program {
   @Field()
   url: string;
 
-  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Course' })
-  @Field({ nullable: false })
-  courseId: string;
+  // @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Course' })
+  // @Field({ nullable: false })
+  // courseId: string;
 
   @Field(() => [Course])
   course: Course[];

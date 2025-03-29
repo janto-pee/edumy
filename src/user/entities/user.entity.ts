@@ -17,8 +17,7 @@ export class User {
   @Field()
   email: string;
 
-  @Prop()
-  @Field()
+  @Prop({ select: false })
   password: string;
 
   @Prop()

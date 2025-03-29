@@ -1,3 +1,106 @@
+#MUTATIONS ORDER
+
+mutation CreateAddress2 {
+    createUser(
+        createUserInput: {
+            email: "email3"
+            first_name: "fn"
+            last_name: "ln"
+            password: "pswd"
+            username: "user3"
+        }
+    ) {
+        _id
+        createdAt
+        email
+        first_name
+        last_name
+        password
+        username
+    }
+
+        createProgram(
+        createProgramInput: {
+            name: "UI/UX design"
+            tagline: "design and development course"
+            url: "http://ui-ux-design"
+        }
+    ) {
+        _id
+        courseId
+        name
+        tagline
+        url
+    }
+}
+
+mutation CreateAddress {
+    createAddress(
+        createAddressInput: {
+            city: "city"
+            country: "country"
+            country_code: "country_code"
+            postal_code: "postal_code"
+            state_province_code: "code"
+            state_province_name: "name"
+            street2: "street2"
+            street: "street"
+        }
+    ) {
+        _id
+        country
+        country_code
+        state_province_code
+        postal_code
+        state_province_name
+        street
+        street2
+        city
+    }
+    createCourse(
+        createCourseInput: {
+            clipMetaData: "clipMetaData"
+            contentId: "contentId"
+            contentType: "contentType"
+            courseMetaData: "courseMetaData"
+            description: "description"
+            difficultyLevel: "difficultyLevel"
+            extraMetaData: "extraMetaData"
+            instructors: "instructors"
+            languageCode: "languageCode"
+            name: "name"
+            partner: "partner"
+            partners: "partners"
+            program: "program"
+            slug: "slug"
+            specializationMetaData: "specializationMetaData"
+            subtitleCodes: "subtitle"
+        }
+    ) {
+        _id
+        clipMetaData
+        contentId
+        contentType
+        courseMetaData
+        description
+        difficultyLevel
+        extraMetaData
+        instructors
+        languageCode
+        name
+        partner
+        partners
+        program
+        slug
+        specializationMetaData
+        subtitleCodes
+    }
+
+   
+}
+
+
+
 mutation CreateAddress {
     createAddress(
         createAddressInput: {
@@ -173,7 +276,7 @@ mutation CreateAddress2 {
             state_province_name: "spn"
             street: "street"
             street2: "street2"
-            userId: ""
+            userId: "d058a7ad-e331-45e7-ba8b-435d39c058b9"
         }
     ) {
         _id
@@ -227,19 +330,7 @@ mutation CreateAddress2 {
         skillId
         skillName
     }
-    createProgram(
-        createProgramInput: {
-            name: "UI/UX design"
-            tagline: "design and development course"
-            url: "http://ui-ux-design"
-        }
-    ) {
-        _id
-        courseId
-        name
-        tagline
-        url
-    }
+
     createCoursemetadatum(
         createCoursemetadatumInput: {
             contentType: "video"
