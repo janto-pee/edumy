@@ -1,7 +1,7 @@
 import { InputType, Field } from '@nestjs/graphql';
 
 @InputType()
-export class CreateContentitemInput {
+export class CreateContentItemInput {
   @Field()
   title: string;
 
@@ -16,4 +16,7 @@ export class CreateContentitemInput {
 
   @Field()
   contentDuration: string;
+
+  @Field()
+  createdBy: string;
 }

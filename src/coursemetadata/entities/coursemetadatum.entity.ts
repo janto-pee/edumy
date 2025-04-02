@@ -1,10 +1,11 @@
 import { ObjectType, Field, ID } from '@nestjs/graphql';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-// import { Course } from 'src/course/entities/course.entity';
+import mongoose from 'mongoose';
+import { User } from 'src/user/entities/user.entity';
 
 @Schema()
 @ObjectType()
-export class Coursemetada {
+export class CourseMetaDatum {
   @Field(() => ID)
   _id: string;
 
@@ -40,5 +41,13 @@ export class Coursemetada {
   @Prop()
   @Field()
   domainTypes: string;
+
+  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'user' })
+  @Field()
+  createdBy: string;
+
+  @Field(() => User)
+  creator: User;
 }
-export const CoursemetadaSchema = SchemaFactory.createForClass(Coursemetada);
+export const CourseMetaDatumSchema =
+  SchemaFactory.createForClass(CourseMetaDatum);

@@ -4,5 +4,13 @@ import { InputType, Field, PartialType } from '@nestjs/graphql';
 @InputType()
 export class UpdateAddressInput extends PartialType(CreateAddressInput) {
   @Field(() => String)
-  _id: string;
+  id: string;
+}
+@InputType()
+export class UpdateBulkAddressInput {
+  @Field(() => String)
+  id: string;
+
+  @Field(() => UpdateAddressInput)
+  data: Partial<UpdateAddressInput>;
 }

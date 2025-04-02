@@ -2,8 +2,9 @@ import { ObjectType, Field, ID } from '@nestjs/graphql';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import mongoose from 'mongoose';
 import { Content } from 'src/content/entities/content.entity';
-import { Coursemetada } from 'src/coursemetadata/entities/coursemetadatum.entity';
+// import { Coursemetada } from 'src/coursemetadata/entities/coursemetadatum.entity';
 import { Skill } from 'src/skill/entities/skill.entity';
+import { User } from 'src/user/entities/user.entity';
 
 @Schema()
 @ObjectType()
@@ -37,7 +38,7 @@ export class Course {
 
   @Prop()
   @Field({ nullable: false })
-  name: string;
+  title: string;
 
   @Prop()
   @Field()
@@ -67,16 +68,23 @@ export class Course {
   @Field()
   skillId: string;
 
+  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'user' })
+  @Field()
+  createdBy: string;
+
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'content' })
   @Field({ nullable: false })
   contentId: string;
 
-  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'courssemetada' })
-  @Field({ nullable: false })
-  coursseMetadatId: string;
+  // @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'courssemetada' })
+  // @Field({ nullable: false })
+  // coursseMetadatId: string;
 
-  @Field(() => Coursemetada)
-  courseMetada: Coursemetada;
+  // @Field(() => Coursemetada)
+  // courseMetada: Coursemetada;
+
+  @Field(() => User)
+  creator: User;
 
   @Field(() => Content)
   content: Content;

@@ -1,7 +1,7 @@
 import { InputType, Field } from '@nestjs/graphql';
 
 @InputType()
-export class CreateCoursemetadatumInput {
+export class CreateCourseMetaDatumInput {
   @Field()
   title: string;
 
@@ -22,4 +22,7 @@ export class CreateCoursemetadatumInput {
 
   @Field()
   courseId: string;
+
+  @Field()
+  createdBy: string;
 }

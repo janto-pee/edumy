@@ -7,34 +7,95 @@ type Address {
   city: String!
   country: String!
   country_code: String!
+  createdBy: String!
+  creator: User!
   postal_code: String!
   state_province_code: String!
   state_province_name: String!
   street: String!
   street2: String!
-  user: User!
-  userId: String!
+}
+
+input AddressFilterDto {
+  city: String
+  country: String
+  country_code: String
+  postal_code: String
+  sortBy: String
+  sortDirection: String
+  state_province_name: String
+  street: String
+}
+
+type AddressPaginationResponse {
+  items: [Address!]!
+  limit: Int!
+  page: Int!
+  total: Int!
+  totalPages: Int!
+}
+
+input ChangePasswordInput {
+  newPassword: String!
+  oldPassword: String!
 }
 
 type Content {
   _id: ID!
   content: String!
-  contentItemId: String!
-  contentitem: Contentitem!
+  contentitem: ContentItem!
   createdAt: DateTime!
+  createdBy: String!
+  creator: User!
   duration: String!
   text: String!
   title: String!
 }
 
-type Contentitem {
-  _id: ID!
+input ContentFilterDto {
+  content: String
+  duration: String
+  sortBy: String
+  sortDirection: String
+  text: String
+  title: String
+}
+
+type ContentItem {
   content: Content!
   contentDuration: String!
   contentId: String!
   contentType: String!
+  createdBy: String!
+  creator: User!
+  id: ID!
   reference: String!
   title: String!
+}
+
+input ContentItemFilterDto {
+  category: String
+  maxPrice: Float
+  minPrice: Float
+  sortBy: String
+  sortDirection: String
+  title: String
+}
+
+type ContentItemPaginationResponse {
+  items: [ContentItem!]!
+  limit: Int!
+  page: Int!
+  total: Int!
+  totalPages: Int!
+}
+
+type ContentPaginationResponse {
+  items: [Content!]!
+  limit: Int!
+  page: Int!
+  total: Int!
+  totalPages: Int!
 }
 
 type Course {
@@ -43,14 +104,13 @@ type Course {
   content: Content!
   contentId: String!
   contentType: String!
-  courseMetada: Coursemetada!
-  coursseMetadatId: String!
+  createdBy: String!
+  creator: User!
   description: String!
   difficultyLevel: String!
   extraMetaData: String!
   instructors: String!
   languageCode: String!
-  name: String!
   partner: String!
   partners: String!
   skillId: String!
@@ -58,12 +118,24 @@ type Course {
   slug: String!
   specializationMetaData: String!
   subtitleCodes: String!
+  title: String!
 }
 
-type Coursemetada {
+input CourseFilterDto {
+  category: String
+  maxPrice: Float
+  minPrice: Float
+  sortBy: String
+  sortDirection: String
+  title: String
+}
+
+type CourseMetaDatum {
   _id: ID!
   contentId: String!
   contentType: String!
+  createdBy: String!
+  creator: User!
   domainTypes: String!
   estimatedLearningTime: String!
   promoPhoto: String!
@@ -71,57 +143,88 @@ type Coursemetada {
   title: String!
 }
 
+input CourseMetaDatumFilterDto {
+  contentId: String
+  contentType: String
+  domainTypes: String
+  estimatedLearningTime: String
+  promoPhoto: String
+  skills: String
+  sortBy: String
+  sortDirection: String
+  title: String
+}
+
+type CourseMetaDatumPaginationResponse {
+  items: [CourseMetaDatum!]!
+  limit: Int!
+  page: Int!
+  total: Int!
+  totalPages: Int!
+}
+
+type CoursePaginationResponse {
+  items: [Course!]!
+  limit: Int!
+  page: Int!
+  total: Int!
+  totalPages: Int!
+}
+
 input CreateAddressInput {
   city: String!
   country: String!
   country_code: String!
+  createdBy: String!
   postal_code: String!
   state_province_code: String!
   state_province_name: String!
   street: String!
   street2: String!
-  userId: String!
 }
 
 input CreateContentInput {
   content: String!
   contentItemId: String!
   courseId: String!
+  createdBy: String!
   duration: String!
   text: String!
   title: String!
 }
 
-input CreateContentitemInput {
+input CreateContentItemInput {
   contentDuration: String!
   contentId: String!
   contentType: String!
+  createdBy: String!
   reference: String!
   title: String!
 }
 
 input CreateCourseInput {
   clipMetaData: String!
-  contentId: String!
   contentType: String!
   courseMetaData: String!
+  createdBy: String!
   description: String!
   difficultyLevel: String!
   extraMetaData: String!
   instructors: String!
   languageCode: String!
-  name: String!
   partner: String!
   partners: String!
   program: String!
   slug: String!
   specializationMetaData: String!
   subtitleCodes: String!
+  title: String!
 }
 
-input CreateCoursemetadatumInput {
+input CreateCourseMetaDatumInput {
   contentType: String!
   courseId: String!
+  createdBy: String!
   domainTypes: String!
   estimatedLearningTime: String!
   promoPhoto: String!
@@ -130,21 +233,34 @@ input CreateCoursemetadatumInput {
 }
 
 input CreateProgramInput {
-  name: String!
+  createdBy: String!
   tagline: String!
+  title: String!
   url: String!
 }
 
 input CreateSkillInput {
-  skillId: Float!
-  skillName: String!
+  category: SkillCategory
+  createdBy: String!
+  description: String
+  icon: String
+  level: SkillLevel
+  name: String!
+  popularity: Float
+  relatedCourses: [String!]
+  tags: [String!]
 }
 
 input CreateUserInput {
+  bio: String
   email: String!
   first_name: String!
+  interests: [String!]
   last_name: String!
   password: String!
+  profile_picture: String
+  role: UserRole
+  roles: [String!]
   username: String!
 }
 
@@ -153,124 +269,321 @@ A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date
 """
 scalar DateTime
 
+input FilterUserDto {
+  is_active: Boolean
+  is_email_verified: Boolean
+  role: UserRole
+  search: String
+  sortBy: String
+  sortDirection: String
+}
+
 type Mutation {
+  bulkDeleteAddresss(ids: [String!]!): Boolean!
+  bulkDeleteContentItems(ids: [String!]!): Boolean!
+  bulkDeleteContents(ids: [String!]!): Boolean!
+  bulkDeleteCourseMetaDatums(ids: [String!]!): Boolean!
+  bulkDeleteCourses(ids: [String!]!): Boolean!
+  bulkDeletePrograms(ids: [String!]!): Boolean!
+  bulkDeleteSkills(ids: [String!]!): Boolean!
+  changePassword(changePasswordInput: ChangePasswordInput!): Boolean!
   createAddress(createAddressInput: CreateAddressInput!): Address!
   createContent(createContentInput: CreateContentInput!): Content!
-  createContentitem(createContentitemInput: CreateContentitemInput!): Contentitem!
+  createContentItem(createContentItemInput: CreateContentItemInput!): ContentItem!
   createCourse(createCourseInput: CreateCourseInput!): Course!
-  createCoursemetadatum(createCoursemetadatumInput: CreateCoursemetadatumInput!): Coursemetada!
+  createCourseMetaDatum(createCourseMetaDatumInput: CreateCourseMetaDatumInput!): CourseMetaDatum!
+  createManyAddresss(createAddressInputs: [CreateAddressInput!]!): [Address!]!
+  createManyContentItems(createContentItemInputs: [CreateContentItemInput!]!): [ContentItem!]!
+  createManyContents(createContentInputs: [CreateContentInput!]!): [Content!]!
+  createManyCourseMetaDatums(createCourseMetaDatumInputs: [CreateCourseMetaDatumInput!]!): [CourseMetaDatum!]!
+  createManyCourses(createCourseInputs: [CreateCourseInput!]!): [Course!]!
+  createManyPrograms(createProgramInputs: [CreateProgramInput!]!): [Program!]!
+  createManySkills(createSkillInputs: [CreateSkillInput!]!): [Skill!]!
   createProgram(createProgramInput: CreateProgramInput!): Program!
   createSkill(createSkillInput: CreateSkillInput!): Skill!
   createUser(createUserInput: CreateUserInput!): User!
   removeAddress(id: String!): Address!
   removeContent(id: String!): Content!
-  removeContentitem(id: String!): Contentitem!
+  removeContentItem(id: String!): ContentItem!
   removeCourse(id: String!): Course!
-  removeCoursemetadatum(id: String!): Coursemetada!
+  removeCourseMetaDatum(id: String!): CourseMetaDatum!
   removeProgram(id: String!): Program!
   removeSkill(id: String!): Skill!
   removeUser(id: String!): User!
   updateAddress(updateAddressInput: UpdateAddressInput!): Address!
   updateContent(updateContentInput: UpdateContentInput!): Content!
-  updateContentitem(updateContentitemInput: UpdateContentitemInput!): Contentitem!
+  updateContentItem(updateContentItemInput: UpdateContentItemInput!): ContentItem!
   updateCourse(updateCourseInput: UpdateCourseInput!): Course!
-  updateCoursemetadatum(updateCoursemetadatumInput: UpdateCoursemetadatumInput!): Coursemetada!
+  updateCourseMetaDatum(updateCourseMetaDatumInput: UpdateCourseMetaDatumInput!): CourseMetaDatum!
+  updateManyAddresss(updates: [UpdateBulkAddressInput!]!): Int!
+  updateManyContentItems(updates: [UpdateBulkContentItemInput!]!): Int!
+  updateManyContents(updates: [UpdateBulkContentInput!]!): Int!
+  updateManyCourseMetaDatums(updates: [UpdateBulkCourseMetaDatumInput!]!): Int!
+  updateManyCourses(updates: [UpdateBulkCourseInput!]!): Int!
+  updateManyPrograms(updates: [UpdateBulkProgramInput!]!): Int!
+  updateManySkills(updates: [UpdateBulkSkillInput!]!): Int!
   updateProgram(updateProgramInput: UpdateProgramInput!): Program!
   updateSkill(updateSkillInput: UpdateSkillInput!): Skill!
   updateUser(updateUserInput: UpdateUserInput!): User!
+  updateUserInterests(interests: [String!]!): Boolean!
+  verifyUserEmail(id: String!): Boolean!
+}
+
+type PaginatedUserResponse {
+  items: [User!]!
+  limit: Int!
+  page: Int!
+  total: Int!
+  totalPages: Int!
 }
 
 type Program {
   _id: ID!
-  course: [Course!]!
-  name: String!
+  courses: [Course!]!
+  createdBy: String!
+  creator: User!
   tagline: String!
+  title: String!
   url: String!
 }
 
+input ProgramFilterDto {
+  sortBy: String
+  sortDirection: String
+  tagline: String
+  title: String
+  url: Float
+}
+
+type ProgramPaginationResponse {
+  items: [Program!]!
+  limit: Int!
+  page: Int!
+  total: Int!
+  totalPages: Int!
+}
+
 type Query {
+  Skill(id: String!): Skill!
   address(id: String!): Address!
-  addresses: [Address!]!
+  addresss(limit: Int! = 10, page: Int! = 1): AddressPaginationResponse!
   content(id: String!): Content!
-  contentitem(id: String!): Contentitem!
-  contentitems: [Contentitem!]!
-  contents: [Content!]!
+  contentItem(id: String!): ContentItem!
+  contentItems(limit: Int! = 10, page: Int! = 1): ContentItemPaginationResponse!
+  contents(limit: Int! = 10, page: Int! = 1): ContentPaginationResponse!
   course(id: String!): Course!
-  coursemetadatas: [Coursemetada!]!
-  coursemetadatum(id: String!): Coursemetada!
-  courses: [Course!]!
+  courseMetaDatum(id: String!): CourseMetaDatum!
+  courseMetaDatums(limit: Int! = 10, page: Int! = 1): CourseMetaDatumPaginationResponse!
+  courses(limit: Int! = 10, page: Int! = 1): CoursePaginationResponse!
+  filteredAddresss(filter: AddressFilterDto!, limit: Int! = 10, page: Int! = 1): AddressPaginationResponse!
+  filteredContentItems(filter: ContentItemFilterDto!, limit: Int! = 10, page: Int! = 1): ContentItemPaginationResponse!
+  filteredContents(filter: ContentFilterDto!, limit: Int! = 10, page: Int! = 1): ContentPaginationResponse!
+  filteredCourseMetaDatums(filter: CourseMetaDatumFilterDto!, limit: Int! = 10, page: Int! = 1): CourseMetaDatumPaginationResponse!
+  filteredCourses(filter: CourseFilterDto!, limit: Int! = 10, page: Int! = 1): CoursePaginationResponse!
+  filteredPrograms(filter: ProgramFilterDto!, limit: Int! = 10, page: Int! = 1): ProgramPaginationResponse!
+  filteredSkills(filter: SkillFilterDto!, limit: Int! = 10, page: Int! = 1): SkillPaginationResponse!
+  filteredUsers(filter: FilterUserDto!, limit: Int! = 10, page: Int! = 1): PaginatedUserResponse!
+  me: User!
+  popularAddresss(limit: Int! = 5): [Address!]!
+  popularContentItems(limit: Int! = 5): [ContentItem!]!
+  popularContents(limit: Int! = 5): [Content!]!
+  popularCourseMetaDatums(limit: Int! = 5): [CourseMetaDatum!]!
+  popularCourses(limit: Int! = 5): [Course!]!
+  popularPrograms(limit: Int! = 5): [Program!]!
+  popularSkills(limit: Int! = 5): [Skill!]!
   program(id: String!): Program!
-  programs: [Program!]!
-  skill(id: String!): Skill!
-  skills: [Skill!]!
+  programs(limit: Int! = 10, page: Int! = 1): ProgramPaginationResponse!
+  recentAddresss(limit: Int! = 5): [Address!]!
+  recentContentItems(limit: Int! = 5): [ContentItem!]!
+  recentContents(limit: Int! = 5): [Content!]!
+  recentCourseMetaDatums(limit: Int! = 5): [CourseMetaDatum!]!
+  recentCourses(limit: Int! = 5): [Course!]!
+  recentPrograms(limit: Int! = 5): [Program!]!
+  recentSkills(limit: Int! = 5): [Skill!]!
+  searchAddresss(searchTerm: String!): [Address!]!
+  searchContentItems(searchTerm: String!): [ContentItem!]!
+  searchContents(searchTerm: String!): [Content!]!
+  searchCourseMetaDatums(searchTerm: String!): [CourseMetaDatum!]!
+  searchCourses(searchTerm: String!): [Course!]!
+  searchPrograms(searchTerm: String!): [Program!]!
+  searchSkills(searchTerm: String!): [Skill!]!
+  skills(limit: Int! = 10, page: Int! = 1): SkillPaginationResponse!
   user(id: String!): User!
-  users: [User!]!
+  users(limit: Int! = 10, page: Int! = 1): PaginatedUserResponse!
 }
 
 type Skill {
-  """id of session"""
   _id: ID!
-  course: Course!
-  courseId: String!
-  skillId: Float!
-  skillName: String!
+  category: SkillCategory!
+  createdAt: DateTime!
+  createdBy: String
+  creator: User!
+  description: String
+  icon: String
+  level: SkillLevel!
+  name: String!
+  popularity: Float!
+  relatedCourses: [String!]
+  tags: [String!]
+  updatedAt: DateTime!
+}
+
+"""Skill categories"""
+enum SkillCategory {
+  BUSINESS
+  CREATIVE
+  LANGUAGE
+  OTHER
+  SOFT
+  TECHNICAL
+}
+
+input SkillFilterDto {
+  category: String
+  description: String
+  icon: String
+  level: String
+  name: String
+  popularity: String
+  relatedCourses: String
+  sortBy: String
+  sortDirection: String
+  tags: String
+}
+
+"""Skill proficiency levels"""
+enum SkillLevel {
+  ADVANCED
+  BEGINNER
+  EXPERT
+  INTERMEDIATE
+}
+
+type SkillPaginationResponse {
+  items: [Skill!]!
+  limit: Int!
+  page: Int!
+  total: Int!
+  totalPages: Int!
+}
+
+type Subscription {
+  addressCreated: Address!
+  addressDeleted: Address!
+  addressUpdated: Address!
+  contentCreated: Content!
+  contentDeleted: Content!
+  contentItemCreated: ContentItem!
+  contentItemDeleted: ContentItem!
+  contentItemUpdated: ContentItem!
+  contentUpdated: Content!
+  courseCreated: Course!
+  courseDeleted: Course!
+  courseMetaDatumCreated: CourseMetaDatum!
+  courseMetaDatumDeleted: CourseMetaDatum!
+  courseMetaDatumUpdated: CourseMetaDatum!
+  courseUpdated: Course!
+  programCreated: Program!
+  programDeleted: Program!
+  programUpdated: Program!
+  skillCreated: Skill!
+  skillDeleted: Skill!
+  skillUpdated: Skill!
 }
 
 input UpdateAddressInput {
-  _id: String!
   city: String
   country: String
   country_code: String
+  createdBy: String
+  id: String!
   postal_code: String
   state_province_code: String
   state_province_name: String
   street: String
   street2: String
-  userId: String
+}
+
+input UpdateBulkAddressInput {
+  data: UpdateAddressInput!
+  id: String!
+}
+
+input UpdateBulkContentInput {
+  data: UpdateContentInput!
+  id: String!
+}
+
+input UpdateBulkContentItemInput {
+  data: UpdateContentItemInput!
+  id: String!
+}
+
+input UpdateBulkCourseInput {
+  data: UpdateCourseInput!
+  id: String!
+}
+
+input UpdateBulkCourseMetaDatumInput {
+  data: UpdateCourseMetaDatumInput!
+  id: String!
+}
+
+input UpdateBulkProgramInput {
+  data: UpdateProgramInput!
+  id: String!
+}
+
+input UpdateBulkSkillInput {
+  data: UpdateSkillInput!
+  id: String!
 }
 
 input UpdateContentInput {
   content: String
   contentItemId: String
   courseId: String
+  createdBy: String
   duration: String
   id: ID!
   text: String
   title: String
 }
 
-input UpdateContentitemInput {
+input UpdateContentItemInput {
   contentDuration: String
   contentId: String
   contentType: String
+  createdBy: String
   id: ID!
   reference: String
   title: String
 }
 
 input UpdateCourseInput {
-  _id: ID!
   clipMetaData: String
-  contentId: String
   contentType: String
   courseMetaData: String
+  createdBy: String
   description: String
   difficultyLevel: String
   extraMetaData: String
+  id: ID!
   instructors: String
   languageCode: String
-  name: String
   partner: String
   partners: String
   program: String
   slug: String
   specializationMetaData: String
   subtitleCodes: String
+  title: String
 }
 
-input UpdateCoursemetadatumInput {
+input UpdateCourseMetaDatumInput {
   contentType: String
   courseId: String
+  createdBy: String
   domainTypes: String
   estimatedLearningTime: String
   id: ID!
@@ -280,33 +593,67 @@ input UpdateCoursemetadatumInput {
 }
 
 input UpdateProgramInput {
+  createdBy: String
   id: ID!
-  name: String
   tagline: String
+  title: String
   url: String
 }
 
 input UpdateSkillInput {
+  category: SkillCategory
+  createdBy: String
+  description: String
+  icon: String
   id: ID!
-  skillId: Float
-  skillName: String
+  level: SkillLevel
+  name: String
+  popularity: Float
+  relatedCourses: [String!]
+  tags: [String!]
 }
 
 input UpdateUserInput {
+  bio: String
   email: String
   first_name: String
-  id: String!
+  id: ID!
+  interests: [String!]
+  is_active: Boolean
+  is_email_verified: Boolean
   last_name: String
   password: String
+  profile_picture: String
+  role: UserRole
+  roles: [String!]
   username: String
 }
 
 type User {
   _id: ID!
-  address: Address!
+  address: Address
+  bio: String
   createdAt: DateTime!
+  created_courses: [String!]
   email: String!
+  enrolled_courses: [String!]
   first_name: String!
+  fullName: String!
+  interests: [String!]
+  is_active: Boolean!
+  is_email_verified: Boolean!
+  last_login: DateTime
   last_name: String!
+  profile_picture: String
+  role: UserRole!
+  roles: [String!]
+  updatedAt: DateTime!
   username: String!
+}
+
+"""User role types"""
+enum UserRole {
+  ADMIN
+  INSTRUCTOR
+  USER
 }

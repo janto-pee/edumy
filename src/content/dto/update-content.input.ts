@@ -6,3 +6,11 @@ export class UpdateContentInput extends PartialType(CreateContentInput) {
   @Field(() => ID)
   id: string;
 }
+@InputType()
+export class UpdateBulkContentInput {
+  @Field(() => String)
+  id: string;
+
+  @Field(() => UpdateContentInput)
+  data: Partial<UpdateContentInput>;
+}

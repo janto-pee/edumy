@@ -3,19 +3,19 @@ import { ContentService } from './content.service';
 import { ContentResolver } from './content.resolver';
 import { MongooseModule } from '@nestjs/mongoose';
 import { Content, ContentSchema } from './entities/content.entity';
-import { ContentitemService } from 'src/contentitem/contentitem.service';
+import { ContentItemService } from 'src/contentitem/contentitem.service';
 import {
-  Contentitem,
-  ContentitemSchema,
+  ContentItem,
+  ContentItemSchema,
 } from 'src/contentitem/entities/contentitem.entity';
 
 @Module({
   imports: [
     MongooseModule.forFeature([
       { name: Content.name, schema: ContentSchema },
-      { name: Contentitem.name, schema: ContentitemSchema },
+      { name: ContentItem.name, schema: ContentItemSchema },
     ]),
   ],
-  providers: [ContentResolver, ContentService, ContentitemService],
+  providers: [ContentResolver, ContentService, ContentItemService],
 })
 export class ContentModule {}

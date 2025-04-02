@@ -5,6 +5,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { Skill, SkillSchema } from './entities/skill.entity';
 import { Course, CourseSchema } from 'src/course/entities/course.entity';
 import { CourseService } from 'src/course/course.service';
+import { CourseModule } from 'src/course/course.module';
 
 @Module({
   imports: [
@@ -14,5 +15,6 @@ import { CourseService } from 'src/course/course.service';
     ]),
   ],
   providers: [SkillResolver, SkillService, CourseService],
+  exports: [SkillService],
 })
 export class SkillModule {}

@@ -1,7 +1,8 @@
 import { ObjectType, Field, ID } from '@nestjs/graphql';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import mongoose, { HydratedDocument, now } from 'mongoose';
-import { Contentitem } from 'src/contentitem/entities/contentitem.entity';
+import { ContentItem } from 'src/contentitem/entities/contentitem.entity';
+import { User } from 'src/user/entities/user.entity';
 
 export type ContentDocument = HydratedDocument<Content>;
 
@@ -23,16 +24,19 @@ export class Content {
   @Field({ nullable: false })
   content: string;
 
-  @Prop({ type: { type: mongoose.Schema.Types.ObjectId, ref: 'Contentitem' } })
-  @Field()
-  contentItemId: string;
-
-  @Field(() => Contentitem)
-  contentitem: Contentitem;
-
   @Prop()
   @Field({ nullable: false })
   duration: string;
+
+  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'user' })
+  @Field()
+  createdBy: string;
+
+  @Field(() => User)
+  creator: User;
+
+  @Field(() => ContentItem)
+  contentitem: ContentItem;
 
   @Prop({ default: now() })
   @Field({ nullable: false })

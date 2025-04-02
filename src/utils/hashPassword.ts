@@ -7,7 +7,7 @@ export async function hashPassword(password: string) {
   return password;
 }
 
-export async function comparePassword(
+export async function comparePasswords(
   confirm_password: string,
   password: string,
 ) {

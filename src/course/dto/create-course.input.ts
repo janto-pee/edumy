@@ -8,8 +8,8 @@ export class CreateCourseInput {
   @Field()
   difficultyLevel: string;
 
-  @Field()
-  contentId: string;
+  // @Field()
+  // contentId: string;
 
   @Field()
   description: string;
@@ -24,7 +24,7 @@ export class CreateCourseInput {
   partners: string;
 
   @Field()
-  name: string;
+  title: string;
 
   @Field()
   program: string;
@@ -43,6 +43,9 @@ export class CreateCourseInput {
 
   @Field()
   contentType: string;
+
+  @Field()
+  createdBy: string;
 
   @Field()
   slug: string;

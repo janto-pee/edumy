@@ -1,18 +1,18 @@
 import { Module } from '@nestjs/common';
-import { CoursemetadataService } from './coursemetadata.service';
-import { CoursemetadataResolver } from './coursemetadata.resolver';
 import { MongooseModule } from '@nestjs/mongoose';
 import {
-  Coursemetada,
-  CoursemetadaSchema,
+  CourseMetaDatum,
+  CourseMetaDatumSchema,
 } from './entities/coursemetadatum.entity';
+import { CourseMetaDatumResolver } from './coursemetadata.resolver';
+import { CourseMetaDatumService } from './coursemetadata.service';
 
 @Module({
   imports: [
     MongooseModule.forFeature([
-      { name: Coursemetada.name, schema: CoursemetadaSchema },
+      { name: CourseMetaDatum.name, schema: CourseMetaDatumSchema },
     ]),
   ],
-  providers: [CoursemetadataResolver, CoursemetadataService],
+  providers: [CourseMetaDatumResolver, CourseMetaDatumService],
 })
 export class CoursemetadataModule {}

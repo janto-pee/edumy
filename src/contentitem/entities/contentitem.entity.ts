@@ -2,13 +2,14 @@ import { ObjectType, Field, ID } from '@nestjs/graphql';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import mongoose from 'mongoose';
 import { Content } from 'src/content/entities/content.entity';
+import { User } from 'src/user/entities/user.entity';
 // import { Content } from 'src/content/entities/content.entity';
 
 @Schema()
 @ObjectType()
-export class Contentitem {
+export class ContentItem {
   @Field(() => ID)
-  _id: string;
+  id: string;
 
   @Prop()
   @Field({ nullable: false })
@@ -32,5 +33,12 @@ export class Contentitem {
 
   @Field(() => Content)
   content: Content;
+
+  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'user' })
+  @Field()
+  createdBy: string;
+
+  @Field(() => User)
+  creator: User;
 }
-export const ContentitemSchema = SchemaFactory.createForClass(Contentitem);
+export const ContentItemSchema = SchemaFactory.createForClass(ContentItem);

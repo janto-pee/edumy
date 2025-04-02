@@ -19,4 +19,7 @@ export class CreateContentInput {
 
   @Field()
   courseId: string;
+
+  @Field()
+  createdBy: string;
 }

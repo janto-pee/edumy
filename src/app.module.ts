@@ -14,6 +14,7 @@ import { ContentModule } from './content/content.module';
 import { ContentitemModule } from './contentitem/contentitem.module';
 import { SkillModule } from './skill/skill.module';
 import { UserModule } from './user/user.module';
+import { PubSubModule } from './pubsub/pubsub.module';
 
 @Module({
   imports: [
@@ -23,9 +24,26 @@ import { UserModule } from './user/user.module';
     ),
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
+      installSubscriptionHandlers: true,
+      subscriptions: {
+        'graphql-ws': true,
+        // {
+        //   onConnect: (context) => {
+        //     // context.connectionParams contains the headers
+        //     const { connectionParams } = context;
+        //     // You can validate auth tokens here
+        //     return { user: validateToken(connectionParams.authToken) };
+        //   },
+        // },
+      },
       autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
       sortSchema: true,
+      // cors: {
+      //   origin: ['http://localhost:3000', 'https://yourdomain.com'],
+      //   credentials: true,
+      // },
     }),
+    PubSubModule,
     AddressModule,
     CourseModule,
     CoursemetadataModule,

@@ -3,13 +3,16 @@ import { InputType, Field } from '@nestjs/graphql';
 @InputType()
 export class CreateProgramInput {
   @Field()
-  name: string;
+  title: string;
 
   @Field()
   tagline: string;
 
   @Field()
   url: string;
+
+  @Field()
+  createdBy: string;
 
   // @Field()
   // contentId: string;

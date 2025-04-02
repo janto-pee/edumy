@@ -6,3 +6,11 @@ export class UpdateProgramInput extends PartialType(CreateProgramInput) {
   @Field(() => ID)
   id: string;
 }
+@InputType()
+export class UpdateBulkProgramInput {
+  @Field(() => String)
+  id: string;
+
+  @Field(() => UpdateProgramInput)
+  data: Partial<UpdateProgramInput>;
+}
