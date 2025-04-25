@@ -646,7 +646,6 @@ type User {
   last_name: String!
   profile_picture: String
   role: UserRole!
-  roles: [String!]
   updatedAt: DateTime!
   username: String!
 }

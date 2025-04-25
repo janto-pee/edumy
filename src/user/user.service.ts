@@ -12,10 +12,8 @@ import { Model, Types } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import { hashPassword, comparePasswords } from 'src/utils/hashPassword';
 import { v4 as uuidv4 } from 'uuid';
-// import { PaginationResponse } from 'src/course/dto/pagination-response';
 import { FilterUserDto } from './dto/filter-user.dto';
 import { ChangePasswordInput } from './dto/change-password.input';
-import { PaginatedUserResponse } from './dto/pagination-response.dto';
 import { PaginationResponse } from 'src/common/pagination/pagination-response';
 
 @Injectable()

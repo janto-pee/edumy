@@ -62,9 +62,9 @@ export class User extends Document {
   @Field(() => UserRole)
   role: UserRole;
 
-  @Prop({ default: [] })
-  @Field(() => [String], { nullable: true })
-  roles: string[];
+  // @Prop({ default: [] })
+  // @Field(() => [String], { nullable: true })
+  // roles: string[];
 
   @Prop({ default: true })
   @Field()
